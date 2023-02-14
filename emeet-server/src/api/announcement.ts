@@ -19,7 +19,7 @@ const prepareAnnoucementById = async (ctx: Koa.Context, next: () => Promise<any>
   await next()
 }
 
-const USER_RESULT_BINDABLE = ['result', 'resultType', 'remark']
+const MEET_INFO_BINDABLE = ['place', 'agendaRule']
 
 router
   .get('/', async (ctx, next) => {            
@@ -53,11 +53,11 @@ router
     const rowUpdated = await findById(id).del()
     ctx.body = {statusCode: rowUpdated > 0 ? 1 : 0}
   })
-  .get('/:id/results', prepareAnnoucementById, async (ctx, next) => {
+  .get('/:id/meet', prepareAnnoucementById, async (ctx, next) => {
     const announcement = ctx.state.announcement
     ctx.body = await db('meetinfo').select('*').where({'announcementId': announcement.id}).orderBy('userCode', 'asc')
   })
-  .post('/:id/results', prepareAnnoucementById, async (ctx, next) => {
+  .post('/:id/meet', prepareAnnoucementById, async (ctx, next) => {
     const announcement = ctx.state.announcement
     const items = ctx.request.body as any[]    
     for(let item of items){
@@ -65,7 +65,7 @@ router
       const query = db('meetinfo').where({id: item.id})
       if(item.id){
         if(item._updated){
-          item = pick(item, USER_RESULT_BINDABLE)
+          item = pick(item, MEET_INFO_BINDABLE)
           await query.update(item)
         }else if(item._deleted){
           await query.del()

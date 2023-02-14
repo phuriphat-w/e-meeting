@@ -10,10 +10,6 @@ const makeQuery = () => db('meet_info').select(
   'announcement.pubDateTime as announcementPubDateTime'
 ).leftJoin('announcement', 'meet_info.announcementId', 'announcement.id')
 
-const updateUserResult = (id: number, userCode: string, data: any) => {
-  return db('meet_info').where({ id, userCode }).update(data)
-}
-
 router
   .get('/', async (ctx, next) => {
     const authData = ctx.state.authData as AuthData
@@ -26,30 +22,8 @@ router
       const keyword = String(ctx.request.query['keyword'])
       query = query.where((it) => {it.where('announcement.topic', 'like', `%${keyword}%`)})
     }
-    const userResults = await query.orderBy('id')
-    ctx.body = userResults.map(it => nestObject(it, 'announcement'))
-  })
-  .get('/:id/markAsViewed', async (ctx, next) => {
-    const id = parseInt(ctx.params.id)
-    const authData = ctx.state.authData as AuthData
-    const viewDateTime = new Date()
-    const rowUpdated = await updateUserResult(id, authData.username, { viewDateTime })
-    if(rowUpdated == 0){
-      ctx.response.status = 404
-      return
-    }
-    ctx.body = {statusCode: 1, viewDateTime}
-  })
-  .get('/:id/acknowledge', async (ctx, next) => {
-    const id = parseInt(ctx.params.id)
-    const authData = ctx.state.authData as AuthData
-    const ackDateTime = new Date()
-    const rowUpdated = await updateUserResult(id, authData.username, { ackDateTime })
-    if(rowUpdated == 0){
-      ctx.response.status = 404
-      return
-    }
-    ctx.body = {statusCode: 1, ackDateTime}
+    const meetinfos = await query.orderBy('id')
+    ctx.body = meetinfos.map(it => nestObject(it, 'announcement'))
   })
 
 export default router
