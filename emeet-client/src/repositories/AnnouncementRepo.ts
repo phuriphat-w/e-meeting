@@ -2,7 +2,7 @@ import { ax } from '../config';
 import { IRepository } from "./IRepo";
 import Announcement from "../models/Announcement";
 import config from "../config";
-import UserResult from '../models/MeetInfo';
+import MeetInfo from '../models/MeetInfo';
 
 export interface AnnouncementFilter {
   keyword?: string
@@ -36,13 +36,13 @@ export class AnnouncementRepository implements IRepository<Announcement> {
     await ax.delete<void>(`${this.urlPrefix}/announcement/${id}`)
   }
 
-  async getMeetInfo(id: string|number): Promise<UserResult[] | null> {
-    const resp = await ax.get<UserResult[]>(`${this.urlPrefix}/announcement/${id}/meet`)
+  async getMeetInfo(id: string|number): Promise<MeetInfo[] | null> {
+    const resp = await ax.get<MeetInfo[]>(`${this.urlPrefix}/announcement/${id}/meet`)
     return resp.data
   }
 
-  async upsertMeetInfo(id: string|number, entity: Partial<UserResult>[]): Promise<UserResult[] | null> {
-    const resp = await ax.post<UserResult[]>(`${this.urlPrefix}/announcement/${id}/meet`, entity)
+  async upsertMeetInfo(id: string|number, entity: Partial<MeetInfo>[]): Promise<MeetInfo[] | null> {
+    const resp = await ax.post<MeetInfo[]>(`${this.urlPrefix}/announcement/${id}/meet`, entity)
     return resp.data
   }
 }

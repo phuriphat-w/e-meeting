@@ -6,7 +6,7 @@ const isDev = process.env.NODE_ENV || process.env.NODE_ENV === 'development'
 
 export const oidcConfig: AuthProviderProps = {
   authority: 'http://localhost:8888/realms/master',
-  client_id: 'pann',
+  client_id: 'fes',
   scope: 'openid profile offline_access',
   redirect_uri: 'http://localhost:3000',
   post_logout_redirect_uri: 'http://localhost:3000',

@@ -3,7 +3,7 @@ import { MeetInfoRepository } from "./MeetInfoRepo"
 
 const repositories = {
   announcements: new AnnouncementRepository(),
-  userResults: new MeetInfoRepository()
+  meetInfo: new MeetInfoRepository()
 }
 
 export default repositories

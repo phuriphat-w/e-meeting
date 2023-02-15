@@ -1,0 +1,10 @@
+.listItemText {
+    padding-left: 25px;
+  }
+  .listItemTextPrimary {
+    font-size: 25px;
+  }
+  
+  .text{
+    display: block;
+  }
