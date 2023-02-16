@@ -15,7 +15,7 @@ function MeetInfoList() {
         setMeetInfoList(prevMeetInfoList => prevMeetInfoList.map(item => item.id === meetInfo.id ? meetInfo : item))}
 
     const fetchMeetInfoList = async () => {
-        let params: { keyword?: string, isPinned?: boolean } = {}
+        let params: { keyword?: string} = {}
         if (searchFilter) {
             params.keyword = searchFilter
         }
@@ -43,17 +43,6 @@ function MeetInfoList() {
     return (
         <Box sx={{ flexGrow: 1 }}>
             <MeetAppbar></MeetAppbar>
-            <Select
-            sx={{ m: 2, minWidth: 120 }}
-            value={selectFilter}
-            onChange={handleChangeSelectFilter}
-            displayEmpty 
-            >
-                <MenuItem value=''>
-                    All
-                </MenuItem>
-                <MenuItem value={1}>Pinned</MenuItem>
-            </Select>
             <TextField sx={{ m: 2, minWidth: 120 }} label="Search" placeholder="Topic" variant="outlined" value={searchFilter} onChange={handleChangeSearchFilter} />
             {meetInfoList.length
               ?

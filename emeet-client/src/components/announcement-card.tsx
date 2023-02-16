@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import { Button, Card, CardHeader, Dialog, DialogTitle, IconButton, Tab, Table, TableBody, TableCell, TableHead, TableRow, Tabs } from "@mui/material";
+import { Button, Card, CardActionArea, CardActions, CardContent, CardHeader, Dialog, DialogTitle, Grid, IconButton, Tab, Table, TableBody, TableCell, TableHead, TableRow, Tabs, Typography } from "@mui/material";
 import { Box } from "@mui/system";
-import { Close, Delete, Upload } from "@mui/icons-material";
+import { Close, Delete, Edit, Upload } from "@mui/icons-material";
 import { read, utils } from 'xlsx';
 import { cloneDeep, find, isEqual, pick, assign } from 'lodash';
 import Announcement from "../models/Announcement";
@@ -133,13 +133,25 @@ function AnnouncementCard(props: Prop) {
             </IconButton>
           }
         />
+        <CardActionArea sx={{ height: '56%' }} onClick={() => setPopup(true)}>
+          <CardContent sx={{ height: '40%' }}>
+            <Grid container spacing={2} columns={5}>
+              <Grid item xs={3}>
+              </Grid>
+            </Grid>
+          </CardContent>
+          <CardActions sx={{ justifyContent: 'flex-end' }}>
+            <Edit color="primary" />
+          </CardActions>
+        </CardActionArea>
       </Card>
 
       <Dialog PaperProps={{ sx: { minWidth: "50%", height: "55%" } }} open={popup} onClose={() => setPopup(false)}>
         <DialogTitle sx={{ display: 'flex', justifyContent: 'space-between' }}>
           <Tabs value={tabIndex} onChange={(event: React.SyntheticEvent, newValue: number) => setTabIndex(newValue)} aria-label="basic tabs example">
-            <Tab label="General" />
-            <Tab label="Meet" />
+            <Tab label="Meet Info" />
+            <Tab label="Meet Members" />
+            <Tab label="File Upload" />
           </Tabs>
           <IconButton onClick={() => setPopup(false)}>
             <Close />
@@ -148,29 +160,30 @@ function AnnouncementCard(props: Prop) {
         <Box hidden={tabIndex !== 0}>
           <AnnouncementForm announcement={announcement} callbackFn={onUpdate}></AnnouncementForm>
         </Box>
-        <Box hidden={tabIndex !== 1}>
-          <Button variant="contained" component="label" sx={{ mx: 2 }}>
+        <Box hidden={tabIndex !== 1} sx={{ margin: 2 }}>
+          Member list *Under Construction*
+        </Box>
+        <Box hidden={tabIndex !== 2} sx={{ margin: 2 }}>
+          <Typography variant="h6" sx={{ mt: 0.5 }}>
+            วาระที่ 1
+          </Typography>
+          <Button variant="contained" component="label" sx={{ mx: 1 }}>
             <Upload />
             Import
             <input hidden type="file" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" onChange={handleImport} />
           </Button>
-          <Table>
-            <TableHead>
-              <TableRow>
-                {xlsxHeading.map((it, index) => <TableCell key={index}><b>{it}</b></TableCell>)}
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {meetInfoList.map((meetInfo, index) =>
-                <TableRow key={index} sx={{ backgroundColor: getConditionalBgColor(meetInfo) }}>
-                  <TableCell>{meetInfo.userCode}</TableCell>
-                  <TableCell>{meetInfo.place}</TableCell>
-                  <TableCell>{meetInfo.agendaRule}</TableCell>
-                </TableRow>
-              )}
-            </TableBody>
-          </Table>
-          <Button disabled={!isImporting} variant="contained" component="label" sx={{ m: 2, float: 'right' }} onClick={handleSubmitImport}>
+          <Button disabled={!isImporting} variant="contained" component="label" sx={{ m: 2, float: 'bottom' }} onClick={handleSubmitImport}>
+            Submit
+          </Button>
+          <Typography variant="h6" sx={{ mt: 0.5 }}>
+            วาระที่ 2
+          </Typography>
+          <Button variant="contained" component="label" sx={{ mx: 1 }}>
+            <Upload />
+            Import
+            <input hidden type="file" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" onChange={handleImport} />
+          </Button>
+          <Button disabled={!isImporting} variant="contained" component="label" sx={{ m: 2, float: 'bottom' }} onClick={handleSubmitImport}>
             Submit
           </Button>
         </Box>
