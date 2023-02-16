@@ -126,7 +126,7 @@ function AnnouncementCard(props: Prop) {
         <CardHeader
           sx={{ height: '30%' }}
           title={announcement?.topic}
-          subheader={new Date(announcement?.pubDateTime?.toString()).toLocaleString('en-GB')}
+          subheader={announcement?.meetDate}
           action={
             <IconButton sx={{ '&:hover': { color: 'red' } }} onClick={onDelete}>
               <Delete />

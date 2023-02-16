@@ -19,7 +19,7 @@ function MeetInfoCard(props: Prop) {
         <CardHeader
           sx={{ height: '30%' }}
           title={meetInfo.announcement?.topic}
-          subheader={new Date(meetInfo.announcement?.pubDateTime!.toString()).toLocaleString('en-GB')}
+          subheader={meetInfo.announcement?.meetDate}
         />
         <CardActionArea sx={{ height: '56%' }}>
           <CardContent sx={{ height: '40%' }}>

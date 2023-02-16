@@ -4,10 +4,11 @@ exports.up = function(knex) {
       .createTable('announcement', function (table) {
         table.increments('id').primary();
         table.string('topic', 255).notNullable();
+        table.string('meet_Date', 64).notNullable();
         table.timestamp('pub_date_time', { useTz: false });
         table.string('user_code', 64).notNullable();
       })
-      .createTable('meet_info', function (table) {
+      .createTable('meetinfo', function (table) {
         table.increments('id').primary();
         table.integer('announcement_id').unsigned();
         table.foreign('announcement_id').references('announcement.id');
@@ -20,7 +21,7 @@ exports.up = function(knex) {
   exports.down = function(knex) {
     return knex.schema
       .dropTable("announcement")
-      .dropTable("meet_info")
+      .dropTable("meetinfo")
   };
   
   exports.config = { transaction: false };

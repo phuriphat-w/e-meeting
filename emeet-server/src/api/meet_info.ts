@@ -4,16 +4,17 @@ import db from '../db'
 import { nestObject } from './utils'
 const router = new Router()
 
-const makeQuery = () => db('meet_info').select(
-  'meet_info.*',
+const makeQuery = () => db('meetinfo').select(
+  'meetinfo.*',
   'announcement.topic as announcementTopic',
+  'announcement.meetDate as announcementmeetDate',
   'announcement.pubDateTime as announcementPubDateTime'
-).leftJoin('announcement', 'meet_info.announcementId', 'announcement.id')
+).leftJoin('announcement', 'meetinfo.announcementId', 'announcement.id')
 
 router
   .get('/', async (ctx, next) => {
     const authData = ctx.state.authData as AuthData
-    let query = makeQuery().where({ 'meet_info.userCode': authData.username })
+    let query = makeQuery().where({ 'meetinfo.userCode': authData.username })
     if (ctx.request.query['announcementId']) {
       const announcementId = Number(ctx.request.query['announcementId'])
       query = query.where({ announcementId })
