@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
-import { Button, Card, CardActionArea, CardActions, CardContent, CardHeader, Dialog, DialogTitle, Grid, IconButton, Tab, Table, TableBody, TableCell, TableHead, TableRow, Tabs, Typography } from "@mui/material";
+import { Button, Card, CardActionArea, CardActions, CardContent, CardHeader, Dialog, DialogTitle, Grid, IconButton, Tab, Tabs, Typography } from "@mui/material";
 import { Box } from "@mui/system";
-import { Close, Delete, Edit, Upload } from "@mui/icons-material";
-import { read, utils } from 'xlsx';
-import { cloneDeep, find, isEqual, pick, assign } from 'lodash';
+import { Close, Delete, Edit, Upload, Download } from "@mui/icons-material";
 import Announcement from "../models/Announcement";
 import AnnouncementForm from "./announcement-form";
 import Repo from '../repositories'
 import MeetInfo from "../models/MeetInfo";
+import { storage } from "../fireBaseConfig";
+import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 
 interface Prop {
   announcement: Announcement
@@ -15,18 +15,15 @@ interface Prop {
   onUpdateAnnouncement : (announcement: Announcement) => void;
 }
 
-const USER_RESULT_BINDABLE = ['place', 'agendaRule']
-
 function AnnouncementCard(props: Prop) {
   const announcement = props.announcement
   const [meetInfoList, setMeetInfoList] = useState<Partial<MeetInfo>[]>([]);
   const [popup, setPopup] = useState(false);
   const [tabIndex, setTabIndex] = useState(0);
   const [isImporting, setIsImporting] = useState(false);
-  const xlsxHeading = [
-    'place',
-    'agendaRule'
-  ];
+  const [fileSelected, setFile] = useState<File>();
+  const [agendaSelected, setAgenda] = useState<number>();
+  const [downloadURL, setDownloadURL] = useState('');
 
   const fetchMeetInfoList = async (announcementId: number) => {
     const result = await Repo.announcements.getMeetInfo(announcementId)
@@ -51,74 +48,59 @@ function AnnouncementCard(props: Prop) {
     props.callbackFetchFn()
   }
 
-  const handleImport = (event: any) => {
-    const files = event.target.files;
-    if (files.length) {
-      const file = files[0];
-      const reader = new FileReader();
-      reader.onload = (event) => {
-        const wb = read(event.target?.result);
-        const sheets = wb.SheetNames;
+  const handleSelectedFile = (file : any, n : number) => {
+    if(file && isImporting == false){
+      setAgenda(n)
+      setIsImporting(true)
+      setFile(file[0])
+    }
+  }
 
-        if (sheets.length) {
-          const rows: MeetInfo[] = utils.sheet_to_json(wb.Sheets[sheets[0]]);
-          let validate
-          if (rows.length) {
-            validate = true
-            Object.keys(rows[0]).forEach((row: string, index) => {
-              if (row !== xlsxHeading[index]) {
-                validate = false
-              }
-            })
+  const handleCancelFile = () => {
+    setIsImporting(false)
+  }
+
+  const handleImport = async (event: any) => {
+    if (fileSelected && isImporting == true){
+      setIsImporting(false)
+      const name = fileSelected.name
+      const storageRef = ref(storage, 'meetDoc/annId_'+ announcement.id + '/agenId_' + agendaSelected + '/' + name)
+      const uploadTask = uploadBytesResumable(storageRef, fileSelected)
+
+      uploadTask.on('state_changed', 
+        (snapshot) => {
+          // Observe state change events such as progress, pause, and resume
+          // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+          const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          console.log('Upload is ' + progress + '% done');
+          switch (snapshot.state) {
+            case 'paused':
+              console.log('Upload is paused');
+              break;
+            case 'running':
+              console.log('Upload is running');
+              break;
           }
-          if (validate) {
-            const result = cloneDeep(meetInfoList)
-            for(const oldRow of result){
-              oldRow._deleted = true
-            }
-            for(const row of rows){
-              const bindable = pick(row, USER_RESULT_BINDABLE)
-              bindable.userCode = bindable.userCode?.toString()
-              const target = find(result, ['userCode', bindable.userCode])
-              if(target){
-                if(!isEqual(pick(target, USER_RESULT_BINDABLE), bindable)){
-                  assign(target, bindable)
-                  target._updated = true                  
-                }
-                target._deleted = false
-              }else{
-                result.push(bindable)
-              }
-            }
-            console.log(result)
-            setMeetInfoList(result)
-            setIsImporting(true)
-          }
+        }, 
+        (error) => {
+          // Handle unsuccessful uploads
+        }, 
+        () => {
+          // Handle successful uploads on complete
+          // For instance, get the download URL: https://firebasestorage.googleapis.com/...
+          getDownloadURL(uploadTask.snapshot.ref).then((url) => {
+            setDownloadURL(url)
+          });
         }
-      }
-      reader.readAsArrayBuffer(file);
+      );
     }
+
     event.target.value = null
-  }
-
-  const handleSubmitImport = async () => {
-    await Repo.announcements.upsertMeetInfo(announcement.id, meetInfoList)
-    fetchMeetInfoList(announcement.id)
-  }
-
-  const getConditionalBgColor = (meetInfo: Partial<MeetInfo>) => {
-    if(meetInfo._deleted){
-      return '#f78279'
-    }
-    if(meetInfo._updated){
-      return '#ffe2b0'
-    }
   }
 
   useEffect(() => {
     fetchMeetInfoList(announcement.id)
 }, [announcement.id])
-
 
   return (
     <Box>
@@ -163,28 +145,70 @@ function AnnouncementCard(props: Prop) {
         <Box hidden={tabIndex !== 1} sx={{ margin: 2 }}>
           Member list *Under Construction*
         </Box>
-        <Box hidden={tabIndex !== 2} sx={{ margin: 2 }}>
-          <Typography variant="h6" sx={{ mt: 0.5 }}>
-            วาระที่ 1
-          </Typography>
-          <Button variant="contained" component="label" sx={{ mx: 1 }}>
-            <Upload />
-            Import
-            <input hidden type="file" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" onChange={handleImport} />
-          </Button>
-          <Button disabled={!isImporting} variant="contained" component="label" sx={{ m: 2, float: 'bottom' }} onClick={handleSubmitImport}>
+        <Box hidden={tabIndex !== 2}>
+          <Box sx={{ margin: 2 }}>
+            <Typography variant="h6" sx={{ mt: 0.5 }}>
+              วาระที่ 1
+            </Typography>
+            <Button disabled={isImporting} variant="contained" component="label" sx={{ mx: 1 }}>
+              <Upload />
+              Import
+              <input hidden type="file" accept=".pdf" onChange={(file) => handleSelectedFile(file.target.files, 1)} />
+            </Button>
+            <Typography variant="h6" sx={{ mt: 0.5 }}>
+              วาระที่ 2
+            </Typography>
+            <Button disabled={isImporting} variant="contained" component="label" sx={{ mx: 1 }}>
+              <Upload />
+              Import
+              <input hidden type="file" accept=".pdf" onChange={(file) => handleSelectedFile(file.target.files, 2)} />
+            </Button>
+            <Typography variant="h6" sx={{ mt: 0.5 }}>
+              วาระที่ 3
+            </Typography>
+            <Button disabled={isImporting} variant="contained" component="label" sx={{ mx: 1 }}>
+              <Upload />
+              Import
+              <input hidden type="file" accept=".pdf" onChange={(file) => handleSelectedFile(file.target.files, 3)} />
+            </Button>
+            <Typography variant="h6" sx={{ mt: 0.5 }}>
+              วาระที่ 4
+            </Typography>
+            <Button disabled={isImporting} variant="contained" component="label" sx={{ mx: 1 }}>
+              <Upload />
+              Import
+              <input hidden type="file" accept=".pdf" onChange={(file) => handleSelectedFile(file.target.files, 4)} />
+            </Button>
+            <Typography variant="h6" sx={{ mt: 0.5 }}>
+              วาระที่ 5
+            </Typography>
+            <Button disabled={isImporting} variant="contained" component="label" sx={{ mx: 1 }}>
+              <Upload />
+              Import
+              <input hidden type="file" accept=".pdf" onChange={(file) => handleSelectedFile(file.target.files, 5)} />
+            </Button>
+            <Typography variant="h6" sx={{ mt: 0.5 }}>
+              วาระที่ 6
+            </Typography>
+            <Button disabled={isImporting} variant="contained" component="label" sx={{ mx: 1 }}>
+              <Upload />
+              Import
+              <input hidden type="file" accept=".pdf" onChange={(file) => handleSelectedFile(file.target.files, 6)} />
+            </Button>
+            <Typography variant="h6" sx={{ mt: 0.5 }}>
+              วาระที่ 7
+            </Typography>
+            <Button disabled={isImporting} variant="contained" component="label" sx={{ mx: 1 }}>
+              <Upload />
+              Import
+              <input hidden type="file" accept=".pdf" onChange={(file) => handleSelectedFile(file.target.files, 7)} />
+            </Button>
+          </Box>
+          <Button disabled={!isImporting} variant="contained" component="label" sx={{ mx: 4, my: 1 }} onClick={handleImport}>
             Submit
           </Button>
-          <Typography variant="h6" sx={{ mt: 0.5 }}>
-            วาระที่ 2
-          </Typography>
-          <Button variant="contained" component="label" sx={{ mx: 1 }}>
-            <Upload />
-            Import
-            <input hidden type="file" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" onChange={handleImport} />
-          </Button>
-          <Button disabled={!isImporting} variant="contained" component="label" sx={{ m: 2, float: 'bottom' }} onClick={handleSubmitImport}>
-            Submit
+          <Button disabled={!isImporting} variant="contained" component="label" sx={{ mx: 4, my: 1 }} onClick={handleCancelFile}>
+            Cancel
           </Button>
         </Box>
       </Dialog>

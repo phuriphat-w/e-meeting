@@ -1,8 +1,11 @@
 import { useState } from "react";
-import { Card, CardActionArea, CardActions, CardContent, CardHeader, Dialog, DialogContent, DialogTitle, Grid, IconButton, Typography } from "@mui/material";
+import { Button, Card, CardActionArea, CardActions, CardContent, CardHeader, Dialog, DialogContent, DialogTitle, Grid, IconButton, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import { Close } from '@mui/icons-material/';
 import MeetInfo from "../models/MeetInfo";
+import { storage } from "../fireBaseConfig";
+
+import { ref, getDownloadURL, listAll } from "firebase/storage";
 
 interface Prop {
     meetInfo: MeetInfo
@@ -10,9 +13,81 @@ interface Prop {
 }
 
 function MeetInfoCard(props: Prop) {
-    const meetInfo = props.meetInfo
-    const [popup, setPopup] = useState(false);
+  const meetInfo = props.meetInfo
+  const [popup, setPopup] = useState(false);
 
+  const downloadURL = (n : number) => {
+    // Create a reference under which you want to list
+    const listRef = ref(storage, 'meetDoc/annId_'+ meetInfo.announcement?.id + '/agenId_' + n);
+
+    // Find all the prefixes and items.
+    listAll(listRef)
+      .then((res) => {
+        res.prefixes.forEach((folderRef) => {
+          // pass
+        });
+        res.items.forEach((itemRef) => {
+          const starsRef = ref(storage, itemRef.fullPath);
+          getDownloadURL(starsRef)
+            .then((url) => {
+              //console.log(url);
+              window.open(url, "_blank");
+            })
+            .catch((error) => {
+              // A full list of error codes is available at
+              // https://firebase.google.com/docs/storage/web/handle-errors
+              switch (error.code) {
+                case 'storage/object-not-found':
+                  // File doesn't exist
+                  break;
+                case 'storage/unauthorized':
+                  // User doesn't have permission to access the object
+                  break;
+                case 'storage/canceled':
+                  // User canceled the upload
+                  break;
+
+                // ...
+
+                case 'storage/unknown':
+                  // Unknown error occurred, inspect the server response
+                  break;
+              }
+            });
+        });
+      }).catch((error) => {
+        // Uh-oh, an error occurred!
+      });
+  }
+
+  const agen1 = () => {
+    downloadURL(1)
+  }
+
+  const agen2 = () => {
+    downloadURL(2)
+  }
+
+  const agen3 = () => {
+    downloadURL(3)
+  }
+
+  const agen4 = () => {
+    downloadURL(4)
+  }
+
+  const agen5 = () => {
+    downloadURL(5)
+  }
+
+  const agen6 = () => {
+    downloadURL(6)
+  }
+
+  const agen7 = () => {
+    downloadURL(7)
+  }
+  
   return (
     <Box>
       <Card sx={{ maxWidth: 500, height: 250 }}>
@@ -63,41 +138,33 @@ function MeetInfoCard(props: Prop) {
           <Typography variant="h4" sx={{ mt: 1 }}>
             วาระการประชุม
           </Typography>
-          <CardActionArea sx={{ height: '30%' }} >
-            <CardActions sx={{ mt: 1 }}>
-              <Typography variant="button" color="primary">1. เรื่องแจ้งเพื่อทราบ</Typography>
-            </CardActions>
-          </CardActionArea>
-          <CardActionArea sx={{ height: '30%' }} >
-            <CardActions sx={{ mt: 1 }}>
-              <Typography variant="button" color="primary">2. รับรองรายงานการประชุม</Typography>
-            </CardActions>
-          </CardActionArea>
-          <CardActionArea sx={{ height: '30%' }} >
-            <CardActions sx={{ mt: 1 }}>
-              <Typography variant="button" color="primary">3. เรื่องสืบเนื่องจากการประชุมครั้งที่แล้ว</Typography>
-            </CardActions>
-          </CardActionArea>
-          <CardActionArea sx={{ height: '30%' }} >
-            <CardActions sx={{ mt: 1 }}>
-              <Typography variant="button" color="primary">4. เรื่องค้างเพื่อพิจารณา</Typography>
-            </CardActions>
-          </CardActionArea>
-          <CardActionArea sx={{ height: '30%' }} >
-            <CardActions sx={{ mt: 1 }}>
-              <Typography variant="button" color="primary">5. เรื่องเสนอเพื่อพิจารณาใหม่</Typography>
-            </CardActions>
-          </CardActionArea>
-          <CardActionArea sx={{ height: '30%' }} >
-            <CardActions sx={{ mt: 1 }}>
-              <Typography variant="button" color="primary">6. เรื่องอื่น</Typography>
-            </CardActions>
-          </CardActionArea>
-          <CardActionArea sx={{ height: '30%' }} >
-            <CardActions sx={{ mt: 1 }}>
-              <Typography variant="button" color="primary">7. การเชิญประชุม</Typography>
-            </CardActions>
-          </CardActionArea>
+          <Button  onClick={agen1}>
+            1. เรื่องแจ้งเพื่อทราบ
+          </Button>
+          <Typography></Typography>
+          <Button  onClick={agen2}>
+            2. รับรองรายงานการประชุม
+          </Button>
+          <Typography></Typography>
+          <Button  onClick={agen3}>
+            3. เรื่องสืบเนื่องจากการประชุมครั้งที่แล้ว
+          </Button>
+          <Typography></Typography>
+          <Button  onClick={agen4}>
+            4. เรื่องค้างเพื่อพิจารณา
+          </Button>
+          <Typography></Typography>
+          <Button  onClick={agen5}>
+            5. เรื่องเสนอเพื่อพิจารณาใหม่
+          </Button>
+          <Typography></Typography>
+          <Button  onClick={agen6}>
+            6. เรื่องอื่น
+          </Button>
+          <Typography></Typography>
+          <Button  onClick={agen7}>
+            7. การเชิญประชุม
+          </Button>
         </DialogContent>
       </Dialog>
     </Box>
