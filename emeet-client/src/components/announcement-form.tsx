@@ -28,7 +28,7 @@ function AnnouncementForm(props: Prop) {
         <TextField fullWidth sx={{ minWidth: 120 }} label="Topic" variant="outlined" defaultValue={props.announcement.topic} inputRef={topicRef} />
       </div>
       <div style={{ margin: 20 }}>
-        <TextField fullWidth sx={{ minWidth: 120 }} label="Meet Date" variant="outlined" defaultValue={props.announcement.meetDate} inputRef={meetDateRef} />
+        <TextField fullWidth sx={{ minWidth: 120 }} label="Meet Date (xx-xx-xxxx)" variant="outlined" defaultValue={props.announcement.meetDate} inputRef={meetDateRef} />
       </div>
       <div style={{ margin: 20 }}>
         <Button variant="contained" sx={{ mb: 1, float: 'right', verticalAlign: 'bottom' }} onClick={onSubmit}>{props.announcement.id ? 'Update' : 'Create'}</Button>
