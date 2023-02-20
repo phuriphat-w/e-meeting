@@ -4,6 +4,7 @@ import { Navigate, useLocation } from 'react-router-dom';
 import { useAppCtx } from '../AppProvider';
 import './login.css';
 import './bg.css';
+import logo from '../images/psu-logo.png'
 
 function Login() {
   const { userInfo, action } = useAppCtx();
@@ -19,7 +20,7 @@ function Login() {
           username: auth.user?.profile.preferred_username,
           displayName: auth.user?.profile.given_name + ' ' + auth.user?.profile.family_name
         })
-      }, 1000)
+      }, 1500)
     }
   }, [auth, userInfo.ready])
 
@@ -31,7 +32,18 @@ function Login() {
   }
 
   if (auth.isLoading) {
-    return <div>Now Loading</div>;
+    return (
+      <div className="Wrapper">
+      <div className="dot-wave">
+        <div className="dot-wave__dot"></div>
+        <div className="dot-wave__dot"></div>
+        <div className="dot-wave__dot"></div>
+        <div className="dot-wave__dot"></div>
+      </div>
+      <div className="loading-text">
+        Now Loading...
+      </div>
+    </div>)
   }
 
   if (auth.error) {
@@ -45,26 +57,40 @@ function Login() {
         <Navigate to={backTo} replace />
       );
     } else {
-      return <div>Wait a few seconds</div>;
+      return (
+      <div className="Wrapper">
+        <div className="dot-wave">
+          <div className="dot-wave__dot"></div>
+          <div className="dot-wave__dot"></div>
+          <div className="dot-wave__dot"></div>
+          <div className="dot-wave__dot"></div>
+        </div>
+        <div className="loading-text">
+          Now Loading...
+        </div>
+      </div>)
     }
   }
 
   return (
-    <div className="login-container">
-      <div className="box-container">
-        <div className="logo-container">
+    <div className="main-login">
+        <div className="login-container">
+            <div className="login-left">
+                <div className="psu-logo">
+                    <img src={logo} />
+                </div>
+            </div>
+            <div className="login-right">
+              <div className="text-box">
+                <h1 className="text header">E-Meeting</h1>
+                <p className="text sup">Faculty of Engineering students</p>
+              </div>
+              <div className="field">
+                <button className="login-btn" onClick={() => void auth.signinRedirect()}>LOGIN</button>
+              </div>
+            </div>
         </div>
-        <div className="text-content-wrapper">
-          <div className="text-content"> </div>
-        </div>
-        <div className="button-container">
-          <button className="login-button" onClick={() => void auth.signinRedirect()}>
-            LOG-IN
-          </button>
-        </div>
-      </div>
     </div>
-  );
-};
-
+)
+}
 export default Login;
