@@ -2,6 +2,7 @@ import { Button, TextField } from "@mui/material";
 import { Box } from "@mui/system";
 import { useRef } from "react";
 import Announcement from "../models/Announcement";
+import Swal from 'sweetalert2'
 
 interface Prop {
   announcement: Partial<Announcement>
@@ -12,12 +13,28 @@ function AnnouncementForm(props: Prop) {
   const topicRef = useRef<HTMLInputElement>(null);
   const meetDateRef = useRef<HTMLInputElement>(null);
 
+  const Toast = Swal.mixin({
+    toast: true,
+    position: 'top-end',
+    showConfirmButton: false,
+    timer: 3000,
+    timerProgressBar: true,
+    didOpen: (toast) => {
+      toast.addEventListener('mouseenter', Swal.stopTimer)
+      toast.addEventListener('mouseleave', Swal.resumeTimer)
+    }
+  })
+
   const onSubmit = () => {
     if (meetDateRef.current?.value.match(/^\d{2}-\d{2}-\d{4}$/)){
       props.callbackFn({
         id: props.announcement.id,
         topic: topicRef.current?.value,
         meetDate: meetDateRef.current?.value
+      })
+      Toast.fire({
+        icon: 'success',
+        title: 'successfully !!'
       })
     }
   }

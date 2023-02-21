@@ -8,6 +8,7 @@ import Repo from '../repositories'
 import MeetInfo from "../models/MeetInfo";
 import { storage } from "../fireBaseConfig";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+import Swal from 'sweetalert2'
 
 interface Prop {
   announcement: Announcement
@@ -38,14 +39,45 @@ function AnnouncementCard(props: Prop) {
   const onUpdate = async (ann: Partial<Announcement>) => {
     const result = await Repo.announcements.update(ann)
     if (result) {
-        props.onUpdateAnnouncement(result)
+        setPopup(false)
+        Swal.fire({
+          title: 'Do you want to save the changes?',
+          showDenyButton: true,
+          showCancelButton: true,
+          confirmButtonText: 'Save',
+          denyButtonText: `Don't save`,
+        }).then((results) => {
+          /* Read more about isConfirmed, isDenied below */
+          if (results.isConfirmed) {
+            props.onUpdateAnnouncement(result)
+            Swal.fire('Saved!', '', 'success')
+          } else if (results.isDenied) {
+            Swal.fire('Changes are not saved', '', 'info')
+          }
+        })
     }
-    setPopup(false)
   }
 
   const onDelete = async () => {
     await Repo.announcements.delete(announcement.id)
-    props.callbackFetchFn()
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        props.callbackFetchFn()
+        Swal.fire(
+          'Deleted!',
+          'Your post has been deleted.',
+          'success'
+        )
+      }
+    })
   }
 
   const handleSelectedFile = (file : any, n : number) => {
