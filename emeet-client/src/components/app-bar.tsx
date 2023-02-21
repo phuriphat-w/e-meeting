@@ -39,6 +39,7 @@ function MeetAppBar() {
               <ListItemText primary="Home" />
             </ListItemButton>
           </ListItem>
+          {userInfo.staff &&
           <ListItem>
             <ListItemButton onClick={() => navigate('/announcement')}>
               <ListItemIcon>
@@ -46,7 +47,7 @@ function MeetAppBar() {
               </ListItemIcon>
               <ListItemText primary="Announcement" />
             </ListItemButton>
-          </ListItem>
+          </ListItem>}
         </List>
       </Drawer>
       <Toolbar>
