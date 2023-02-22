@@ -10,6 +10,7 @@ function MeetAppBar() {
   const [anchorEl, setAnchorEl] = useState(null);
   const [anchorNav, setAnchorNav] = useState(false);
   const navigate = useNavigate();
+  let role = ""
 
   const handleOpenMenu = (event: any) => {
     setAnchorEl(event.currentTarget);
@@ -18,6 +19,10 @@ function MeetAppBar() {
   const handleCloseMenu = () => {
     setAnchorEl(null);
   };
+
+  if (userInfo.staff) {
+    role = "Admin"
+  }
 
   return (
     <AppBar position="static">
@@ -62,7 +67,7 @@ function MeetAppBar() {
           <MenuIcon />
         </IconButton>
         <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-          PSU Announcement
+          Meeting Announcement
         </Typography>
         <Typography>
           {userInfo.displayName}
@@ -94,6 +99,9 @@ function MeetAppBar() {
         >
           {userInfo.ready && <MenuItem onClick={() => void action.signOut()}>Log out</MenuItem>}
         </Menu>
+        <Typography>
+          {role}
+        </Typography>
       </Toolbar>
     </AppBar>
   )

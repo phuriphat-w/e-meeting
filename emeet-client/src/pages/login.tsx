@@ -88,7 +88,7 @@ function Login() {
             <div className="login-right">
               <div className="text-box">
                 <h1 className="text header">E-Meeting</h1>
-                <p className="text sup">Faculty of Engineering students</p>
+                <p className="text sup">Faculty of Engineering for students</p>
               </div>
               <div className="field">
                 <button className="login-btn" onClick={() => void auth.signinRedirect()}>LOGIN</button>
