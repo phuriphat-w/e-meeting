@@ -1,101 +1,74 @@
-import { AppBar, Divider, Drawer, IconButton, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Menu, MenuItem, Toolbar, Typography } from "@mui/material";
-import { Menu as MenuIcon, AccountCircle, ChevronLeft, Home, Campaign } from "@mui/icons-material";
-import { useState } from "react";
+import { useState, useEffect, ChangeEvent } from "react";
 import { useAppCtx } from "../AppProvider";
 import { useNavigate } from "react-router-dom";
 import "./app-bar.css";
+import Icon from '../images/psu-icon.png';
+import GroupsIcon from '@mui/icons-material/Groups';
+import LogoutIcon from '@mui/icons-material/Logout';
+import NotificationImportantIcon from '@mui/icons-material/NotificationImportant';
+import RecentActorsIcon from '@mui/icons-material/RecentActors';
+import AccountBoxIcon from '@mui/icons-material/AccountBox';
+import SearchIcon from '@mui/icons-material/Search';
+import Repo from '../repositories'
+import Announcement from "../models/Announcement";
 
 function MeetAppBar() {
   const { userInfo, action } = useAppCtx()
-  const [anchorEl, setAnchorEl] = useState(null);
-  const [anchorNav, setAnchorNav] = useState(false);
   const navigate = useNavigate();
 
-  const handleOpenMenu = (event: any) => {
-    setAnchorEl(event.currentTarget);
-  };
+  let role = ""
 
-  const handleCloseMenu = () => {
-    setAnchorEl(null);
+  if (userInfo.staff) {
+    role = "Admin"
+  }
+  const getLink = () => {
+    if (userInfo.staff) {
+      return '/announcement';
+    } else {
+      return '/home';
+    }
   };
 
   return (
-    <AppBar position="static">
-      <Drawer
-        anchor='left'
-        open={anchorNav}
-        onClose={() => setAnchorNav(false)}
-      >
-        <IconButton onClick={() => setAnchorNav(false)}>
-          <ChevronLeft />
-        </IconButton>
-        <Divider />
-        <List>
-          <ListItem>
-            <ListItemButton onClick={() => navigate('/home')}>
-              <ListItemIcon>
-                <Home />
-              </ListItemIcon>
-              <ListItemText primary="Home" />
-            </ListItemButton>
-          </ListItem>
-          <ListItem>
-            <ListItemButton onClick={() => navigate('/announcement')}>
-              <ListItemIcon>
-                <Campaign />
-              </ListItemIcon>
-              <ListItemText primary="Announcement" />
-            </ListItemButton>
-          </ListItem>
-        </List>
-      </Drawer>
-      <Toolbar>
-        <IconButton
-          size="large"
-          edge="start"
-          color="inherit"
-          aria-label="menu"
-          sx={{ mr: 2 }}
-          onClick={() => setAnchorNav(true)}
-        >
-          <MenuIcon />
-        </IconButton>
-        <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-          PSU Announcement
-        </Typography>
-        <Typography>
-          {userInfo.displayName}
-        </Typography>
-        <IconButton
-          size="large"
-          aria-label="account of current user"
-          aria-controls="menu-appbar"
-          aria-haspopup="true"
-          onClick={handleOpenMenu}
-          color="inherit"
-        >
-          <AccountCircle />
-        </IconButton>
-        <Menu
-          id="menu-appbar"
-          anchorEl={anchorEl}
-          anchorOrigin={{
-            vertical: 'bottom',
-            horizontal: 'right',
-          }}
-          keepMounted
-          transformOrigin={{
-            vertical: 'top',
-            horizontal: 'right',
-          }}
-          open={Boolean(anchorEl)}
-          onClose={handleCloseMenu}
-        >
-          {userInfo.ready && <MenuItem onClick={() => void action.signOut()}>Log out</MenuItem>}
-        </Menu>
-      </Toolbar>
-    </AppBar>
-  )
-}
+    <div className="sidebar">
+      <div className="logo-container">
+        <div className="logo">
+          <img src={Icon} alt='"psu-icon' className="psu-icon"/>
+          <h2 className="title">E-Meeting</h2>
+        </div>
+      </div>
+      <ul className="contents">
+        <li>
+          <a href={getLink()}>
+            <GroupsIcon sx={{color:'#707070',ml:1.5}}/>
+            <span className="menu-text">นัดหมายการประชุม</span>
+          </a>
+        </li>
+        <li>
+          <a href="#">
+            <NotificationImportantIcon sx={{color:'#707070',ml:1}}/>
+            <span className="menu-text">แจ้งเตือนการประชุม</span>
+          </a>
+        </li>
+        <li>
+          <a href="#">
+            <RecentActorsIcon sx={{color:'#707070',ml:1.5}}/>
+            <span className="menu-text">รายชื่อสมาชิก</span>
+          </a>
+        </li>
+      </ul>
+      <div className="user-info-container">
+        <div className="user-info">
+        <AccountBoxIcon sx={{fontSize:36,color:'#143b6c'}}/>
+        <div className="user-info-text">
+          <h1>{userInfo.displayName}</h1>
+          <p>{role}</p>
+        </div>
+        <LogoutIcon sx={{cursor:'pointer',ml:2,fontSize:28,color:'#143b6c','&:hover':{color:'red'}}} onClick={() => void action.signOut()}/>
+        </div>
+      </div>
+    </div>
+  )}
+    
 
 export default MeetAppBar;
