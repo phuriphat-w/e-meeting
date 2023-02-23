@@ -4,11 +4,12 @@ import { Box } from "@mui/system";
 import { Add, Close } from '@mui/icons-material/';
 import { useAuth } from "react-oidc-context";
 import AnnouncementCard from "../components/announcement-card";
-import MeetAppBar from "../components/app-bar";
+import MeetAppbar from "../components/app-bar";
 import AnnouncementForm from "../components/announcement-form";
 import Announcement from "../models/Announcement";
 import Repo from '../repositories'
 import './bg.css';
+import './an-list.css'
 
 function AnnouncementList() {
   const auth = useAuth();
@@ -48,8 +49,15 @@ function AnnouncementList() {
   }, [searchFilter])
 
   return (
-    <Box sx={{ flexGrow: 1 }}>
-      <MeetAppBar></MeetAppBar>
+    <div className="page-layout">
+      <div className='app-bar'>
+        <MeetAppbar></MeetAppbar>
+      </div>
+      <div className="info-layout">
+        <div className="page-header">
+          <h1>นัดหมายการประชุม</h1>
+        </div>
+        <div className="card-layout">
       <TextField sx={{ m: 2, minWidth: 120 }} label="Search" placeholder="Topic" variant="outlined" value={searchFilter} onChange={handleChangeSearchFilter} />
       <Button sx={{ m: 2, float: 'right' }} variant="contained" onClick={() => setCreateFormPopup(true)}>
         <Add /> Announcement
@@ -68,6 +76,7 @@ function AnnouncementList() {
           <Typography variant="body2" color="text.secondary">No Announcement Found</Typography>
         </Box>
       }
+      </div>
 
       <Dialog PaperProps={{ sx: { minWidth: "50%" } }} open={createFormPopup} onClose={() => setCreateFormPopup(false)}>
         <DialogTitle sx={{ display: 'flex', justifyContent: 'space-between' }}>
@@ -78,7 +87,8 @@ function AnnouncementList() {
         </DialogTitle>
         <AnnouncementForm announcement={{}} callbackFn={onCreateAnnouncement}></AnnouncementForm>
       </Dialog>
-    </Box>
+    </div>
+    </div>
   );
 }
 

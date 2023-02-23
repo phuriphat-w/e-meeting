@@ -5,6 +5,7 @@ import MeetInfoCard from '../components/meetinfo-card';
 import MeetInfo from '../models/MeetInfo';
 import Repo from '../repositories'
 import MeetAppbar from '../components/app-bar';
+import './meet-info.css'
 
 function MeetInfoList() {
     const [meetInfoList, setMeetInfoList] = useState<MeetInfo[]>([])
@@ -41,8 +42,15 @@ function MeetInfoList() {
     }, [selectFilter, searchFilter])
 
     return (
-        <Box sx={{ flexGrow: 1 }}>
+        <div className="page-layout">
+          <div className='app-bar'>
             <MeetAppbar></MeetAppbar>
+          </div>
+          <div className="info-layout">
+           <div className="page-header">
+            <h1>นัดหมายการประชุม</h1>
+           </div>
+           <div className="card-layout">
             <TextField sx={{ m: 2, minWidth: 120 }} label="Search" placeholder="Topic" variant="outlined" value={searchFilter} onChange={handleChangeSearchFilter} />
             {meetInfoList.length
               ?
@@ -58,7 +66,9 @@ function MeetInfoList() {
                 <Typography variant='body2' color='text.secondary'>No Result Found</Typography>
               </Box>
             }
-        </Box>
+            </div>
+          </div>
+        </div>
     )
 }
 

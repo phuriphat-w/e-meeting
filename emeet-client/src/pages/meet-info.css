@@ -1,0 +1,32 @@
+@import url('https://fonts.googleapis.com/css2?family=Kanit:wght@100;200;300;400;500;600;700;800;900&display=swap');
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.page-layout {
+    /* border: 5px solid red; */
+    display: flex;
+}
+
+.app-bar {
+    /* border: 3px solid blue; */
+}
+
+.info-layout {
+    width: 100%;
+    /* border: 3px solid blue; */
+    padding: 3rem 3rem;
+}
+
+.card-layout {
+    /* border: 3px solid green; */
+}
+
+.page-header h1 {
+    font-family: Kanit;
+    /* border: 3px solid black; */
+    font-size: 40px;
+    font-weight: 500;
+}
