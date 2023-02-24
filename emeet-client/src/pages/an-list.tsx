@@ -55,11 +55,11 @@ function AnnouncementList() {
       </div>
       <div className="info-layout">
         <div className="page-header">
-          <h1>รายการการประชุม</h1>
+          <h1>นัดหมายการประชุม</h1>
         </div>
         <div className="card-layout">
       <TextField sx={{ m: 2, minWidth: 120 }} label="ค้นหา" placeholder="หัวข้อการประชุม" variant="outlined" value={searchFilter} onChange={handleChangeSearchFilter} />
-      <Button sx={{ m: 2, float: 'right' }} variant="contained" onClick={() => setCreateFormPopup(true)}>
+      <Button sx={{ m: 2, float: 'right',borderRadius:5,fontFamily:'Kanit',fontWeight:400 }} variant="contained" onClick={() => setCreateFormPopup(true)}>
         <Add /> ประกาศการประชุม
       </Button>
       {announcementList.length

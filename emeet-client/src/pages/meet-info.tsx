@@ -48,7 +48,7 @@ function MeetInfoList() {
           </div>
           <div className="info-layout">
            <div className="page-header">
-            <h1>นัดหมายการประชุม</h1>
+            <h1>รายการการประชุม</h1>
            </div>
            <div className="card-layout">
             <TextField sx={{ m: 2, minWidth: 120 }} label="Search" placeholder="Topic" variant="outlined" value={searchFilter} onChange={handleChangeSearchFilter} />
