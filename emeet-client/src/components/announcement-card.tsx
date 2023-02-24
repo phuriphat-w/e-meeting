@@ -163,9 +163,9 @@ function AnnouncementCard(props: Prop) {
       <Dialog PaperProps={{ sx: { minWidth: "50%", height: "55%" } }} open={popup} onClose={() => setPopup(false)}>
         <DialogTitle sx={{ display: 'flex', justifyContent: 'space-between' }}>
           <Tabs value={tabIndex} onChange={(event: React.SyntheticEvent, newValue: number) => setTabIndex(newValue)} aria-label="basic tabs example">
-            <Tab label="Meet Info" />
-            <Tab label="Meet Members" />
-            <Tab label="File Upload" />
+            <Tab label="แก้ไขชื่อและวันที่" />
+            <Tab label="ระบุสมาชิกที่มีส่วนร่วม" />
+            <Tab label="อัปโหลดไฟล์เอกสาร" />
           </Tabs>
           <IconButton onClick={() => setPopup(false)}>
             <Close />
@@ -175,72 +175,72 @@ function AnnouncementCard(props: Prop) {
           <AnnouncementForm announcement={announcement} callbackFn={onUpdate}></AnnouncementForm>
         </Box>
         <Box hidden={tabIndex !== 1} sx={{ margin: 2 }}>
-          Member list *Under Construction*
+          อยู่ระหว่างการพัฒนา
         </Box>
         <Box hidden={tabIndex !== 2}>
           <Box sx={{ margin: 2 }}>
             <Typography variant="h6" sx={{ mt: 0.5 }}>
-              วาระที่ 1
+              วาระที่ 1.เรื่องแจ้งเพื่อทราบ
             </Typography>
             <Button disabled={isImporting} variant="contained" component="label" sx={{ mx: 1 }}>
               <Upload />
-              Import
+              เลือกไฟล์
               <input hidden type="file" accept=".pdf" onChange={(file) => handleSelectedFile(file.target.files, 1)} />
             </Button>
             <Typography variant="h6" sx={{ mt: 0.5 }}>
-              วาระที่ 2
+              วาระที่ 2.รับรองรายงานการประชุม
             </Typography>
             <Button disabled={isImporting} variant="contained" component="label" sx={{ mx: 1 }}>
               <Upload />
-              Import
+              เลือกไฟล์
               <input hidden type="file" accept=".pdf" onChange={(file) => handleSelectedFile(file.target.files, 2)} />
             </Button>
             <Typography variant="h6" sx={{ mt: 0.5 }}>
-              วาระที่ 3
+              วาระที่ 3.เรื่องสืบเนื่องจากการประชุมครั้งที่แล้ว
             </Typography>
             <Button disabled={isImporting} variant="contained" component="label" sx={{ mx: 1 }}>
               <Upload />
-              Import
+              เลือกไฟล์
               <input hidden type="file" accept=".pdf" onChange={(file) => handleSelectedFile(file.target.files, 3)} />
             </Button>
             <Typography variant="h6" sx={{ mt: 0.5 }}>
-              วาระที่ 4
+              วาระที่ 4.เรื่องค้างเพื่อพิจารณา
             </Typography>
             <Button disabled={isImporting} variant="contained" component="label" sx={{ mx: 1 }}>
               <Upload />
-              Import
+              เลือกไฟล์
               <input hidden type="file" accept=".pdf" onChange={(file) => handleSelectedFile(file.target.files, 4)} />
             </Button>
             <Typography variant="h6" sx={{ mt: 0.5 }}>
-              วาระที่ 5
+              วาระที่ 5.เรื่องเสนอเพื่อพิจารณาใหม่
             </Typography>
             <Button disabled={isImporting} variant="contained" component="label" sx={{ mx: 1 }}>
               <Upload />
-              Import
+              เลือกไฟล์
               <input hidden type="file" accept=".pdf" onChange={(file) => handleSelectedFile(file.target.files, 5)} />
             </Button>
             <Typography variant="h6" sx={{ mt: 0.5 }}>
-              วาระที่ 6
+              วาระที่ 6.เรื่องอื่น
             </Typography>
             <Button disabled={isImporting} variant="contained" component="label" sx={{ mx: 1 }}>
               <Upload />
-              Import
+              เลือกไฟล์
               <input hidden type="file" accept=".pdf" onChange={(file) => handleSelectedFile(file.target.files, 6)} />
             </Button>
             <Typography variant="h6" sx={{ mt: 0.5 }}>
-              วาระที่ 7
+              วาระที่ 7.การเชิญประชุม
             </Typography>
             <Button disabled={isImporting} variant="contained" component="label" sx={{ mx: 1 }}>
               <Upload />
-              Import
+              เลือกไฟล์
               <input hidden type="file" accept=".pdf" onChange={(file) => handleSelectedFile(file.target.files, 7)} />
             </Button>
           </Box>
           <Button disabled={!isImporting} variant="contained" component="label" sx={{ mx: 4, my: 1 }} onClick={handleImport}>
-            Submit
+            อัปโหลด
           </Button>
           <Button disabled={!isImporting} variant="contained" component="label" sx={{ mx: 4, my: 1 }} onClick={handleCancelFile}>
-            Cancel
+            ยกเลิก
           </Button>
         </Box>
       </Dialog>

@@ -42,13 +42,13 @@ function AnnouncementForm(props: Prop) {
   return (
     <Box>
       <div style={{ margin: 20 }}>
-        <TextField fullWidth sx={{ minWidth: 120 }} label="Topic" variant="outlined" defaultValue={props.announcement.topic} inputRef={topicRef} />
+        <TextField fullWidth sx={{ minWidth: 120 }} label="หัวข้อการประชุม" placeholder="คัดเลือกตัวแทนนักศึกษา" variant="outlined" defaultValue={props.announcement.topic} inputRef={topicRef} />
       </div>
       <div style={{ margin: 20 }}>
-        <TextField fullWidth sx={{ minWidth: 120 }} label="Meet Date (xx-xx-xxxx)" variant="outlined" defaultValue={props.announcement.meetDate} inputRef={meetDateRef} />
+        <TextField fullWidth sx={{ minWidth: 120 }} label="วันที่ประชุม" placeholder="xx-xx-xxxx" variant="outlined" defaultValue={props.announcement.meetDate} inputRef={meetDateRef} />
       </div>
       <div style={{ margin: 20 }}>
-        <Button variant="contained" sx={{ mb: 1, float: 'right', verticalAlign: 'bottom' }} onClick={onSubmit}>{props.announcement.id ? 'Update' : 'Create'}</Button>
+        <Button variant="contained" sx={{ mb: 1, float: 'right', verticalAlign: 'bottom' }} onClick={onSubmit}>{props.announcement.id ? 'แก้ไข' : 'ยืนยัน'}</Button>
       </div>
     </Box>
   )

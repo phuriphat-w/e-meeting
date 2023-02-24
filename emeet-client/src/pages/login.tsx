@@ -64,22 +64,22 @@ function Login() {
             <div className="login-right">
               <div className="text-box">
                 <h1 className="text header">E-Meeting</h1>
-                <p className="text sup">Faculty of Engineering for students</p>
+                <p className="text sup">รายการการประชุมสำหรับนศ.คณะวิศวกรรมศาสตร์</p>
               </div>
               <Form.Group controlId="formEmail">
-                <Form.Label>Email</Form.Label>
-                <Form.Control ref={emailRef} type="email" placeholder="email" />
+                <Form.Label>อีเมล</Form.Label>
+                <Form.Control ref={emailRef} type="email" placeholder="6510110xxx@psu.ac.th" />
               </Form.Group>
               <Form.Group controlId="formPassword">
-                <Form.Label>Password</Form.Label>
+                <Form.Label>รหัสผ่าน</Form.Label>
                 <Form.Control
                   ref={passwordRef}
                   type="password"
-                  placeholder="password"
+                  placeholder="รหัสผ่าน"
                 />
               </Form.Group>
               <div className="field">
-                <button className="login-btn" onClick={() => signInByEMailPass()} disabled={authing}>LOGIN</button>
+                <button className="login-btn" onClick={() => signInByEMailPass()} disabled={authing}>เข้าสู่ระบบ</button>
               </div>
             </div>
         </div>

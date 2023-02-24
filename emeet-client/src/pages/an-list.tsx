@@ -55,12 +55,12 @@ function AnnouncementList() {
       </div>
       <div className="info-layout">
         <div className="page-header">
-          <h1>นัดหมายการประชุม</h1>
+          <h1>รายการการประชุม</h1>
         </div>
         <div className="card-layout">
-      <TextField sx={{ m: 2, minWidth: 120 }} label="Search" placeholder="Topic" variant="outlined" value={searchFilter} onChange={handleChangeSearchFilter} />
+      <TextField sx={{ m: 2, minWidth: 120 }} label="ค้นหา" placeholder="หัวข้อการประชุม" variant="outlined" value={searchFilter} onChange={handleChangeSearchFilter} />
       <Button sx={{ m: 2, float: 'right' }} variant="contained" onClick={() => setCreateFormPopup(true)}>
-        <Add /> Announcement
+        <Add /> ประกาศการประชุม
       </Button>
       {announcementList.length
         ?
@@ -73,14 +73,14 @@ function AnnouncementList() {
         </Grid>
         :
         <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: 400 }}>
-          <Typography variant="body2" color="text.secondary">No Announcement Found</Typography>
+          <Typography variant="body2" color="text.secondary">ไม่พบรายการการประชุม</Typography>
         </Box>
       }
       </div>
 
       <Dialog PaperProps={{ sx: { minWidth: "50%" } }} open={createFormPopup} onClose={() => setCreateFormPopup(false)}>
         <DialogTitle sx={{ display: 'flex', justifyContent: 'space-between' }}>
-          Create Announcement
+          ประกาศการประชุม
           <IconButton onClick={() => setCreateFormPopup(false)}>
             <Close />
           </IconButton>
