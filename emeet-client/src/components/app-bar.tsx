@@ -8,19 +8,22 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import NotificationImportantIcon from '@mui/icons-material/NotificationImportant';
 import RecentActorsIcon from '@mui/icons-material/RecentActors';
 import AccountBoxIcon from '@mui/icons-material/AccountBox';
-import SearchIcon from '@mui/icons-material/Search';
-import Repo from '../repositories'
-import Announcement from "../models/Announcement";
+import { getAuth, signOut } from 'firebase/auth';
 
 function MeetAppBar() {
   const { userInfo, action } = useAppCtx()
   const navigate = useNavigate();
 
-  let role = ""
+  const handleSignOut = () => {
+    const auth = getAuth();
+    signOut(auth).then(() => {
+      navigate("/");
+      console.log("Signed out successfully")
+    }).catch((error) => {
+      console.log(error);
+    });
+  };
 
-  if (userInfo.staff) {
-    role = "Admin"
-  }
   const getLink = () => {
     if (userInfo.staff) {
       return '/announcement';
@@ -62,9 +65,9 @@ function MeetAppBar() {
         <AccountBoxIcon sx={{fontSize:36,color:'#143b6c'}}/>
         <div className="user-info-text">
           <h1>{userInfo.displayName}</h1>
-          <p>{role}</p>
+          {/* <p>{role}</p> */}
         </div>
-        <LogoutIcon sx={{cursor:'pointer',ml:2,fontSize:28,color:'#143b6c','&:hover':{color:'red'}}} onClick={() => void action.signOut()}/>
+        <LogoutIcon sx={{cursor:'pointer',ml:2,fontSize:28,color:'#143b6c','&:hover':{color:'red'}}} onClick={handleSignOut}/>
         </div>
       </div>
     </div>
