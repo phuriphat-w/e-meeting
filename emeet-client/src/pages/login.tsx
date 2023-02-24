@@ -51,6 +51,8 @@ function Login() {
     })
   }
 
+  
+
   console.log('rendering..... login', auth.name)
 
   return (
@@ -66,20 +68,14 @@ function Login() {
                 <h1 className="text header">E-Meeting</h1>
                 <p className="text sup">รายการการประชุมสำหรับนศ.คณะวิศวกรรมศาสตร์</p>
               </div>
-              <Form.Group controlId="formEmail">
-                <Form.Label>อีเมล</Form.Label>
-                <Form.Control ref={emailRef} type="email" placeholder="6510110xxx@psu.ac.th" />
-              </Form.Group>
-              <Form.Group controlId="formPassword">
-                <Form.Label>รหัสผ่าน</Form.Label>
-                <Form.Control
-                  ref={passwordRef}
-                  type="password"
-                  placeholder="รหัสผ่าน"
-                />
-              </Form.Group>
+              <form className="login-form">
+              <label htmlFor="email">อีเมล</label>
+                <input ref={emailRef} placeholder="6510110xxx@psu.ac.th" type="email" id="email" />
+              <label htmlFor="pwd">รหัสผ่าน</label>
+                <input ref={passwordRef} placeholder="รหัสผ่าน" type="password" id="pwd" />
+              </form>
               <div className="field">
-                <button className="login-btn" onClick={() => signInByEMailPass()} disabled={authing}>เข้าสู่ระบบ</button>
+                  <button className="login-btn" onClick={() => signInByEMailPass()} disabled={authing}>เข้าสู่ระบบ</button>
               </div>
             </div>
         </div>
