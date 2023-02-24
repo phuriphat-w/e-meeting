@@ -1,6 +1,5 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
 import { getStorage } from "firebase/storage"
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -10,6 +9,7 @@ import { getStorage } from "firebase/storage"
 const firebaseConfig = {
   apiKey: "AIzaSyAPPurnapXdSbllfARcIds9JlgC4Uayl7M",
   authDomain: "emeetfes.firebaseapp.com",
+  databaseURL: "https://emeetfes-default-rtdb.asia-southeast1.firebasedatabase.app",
   projectId: "emeetfes",
   storageBucket: "emeetfes.appspot.com",
   messagingSenderId: "632905686306",
@@ -19,6 +19,5 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
 
 export const storage = getStorage()
