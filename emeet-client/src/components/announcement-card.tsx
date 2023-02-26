@@ -141,6 +141,7 @@ function AnnouncementCard(props: Prop) {
           sx={{ height: '30%' }}
           title={announcement?.topic}
           subheader={announcement?.meetDate}
+          header={announcement?.detail}
           action={
             <IconButton sx={{ '&:hover': { color: 'red' } }} onClick={onDelete}>
               <Delete />

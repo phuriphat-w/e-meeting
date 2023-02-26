@@ -12,6 +12,7 @@ interface Prop {
 function AnnouncementForm(props: Prop) {
   const topicRef = useRef<HTMLInputElement>(null);
   const meetDateRef = useRef<HTMLInputElement>(null);
+  const detailRef = useRef<HTMLInputElement>(null);
 
   const Toast = Swal.mixin({
     toast: true,
@@ -30,7 +31,8 @@ function AnnouncementForm(props: Prop) {
       props.callbackFn({
         id: props.announcement.id,
         topic: topicRef.current?.value,
-        meetDate: meetDateRef.current?.value
+        meetDate: meetDateRef.current?.value,
+        detail: detailRef.current?.value
       })
       Toast.fire({
         icon: 'success',
@@ -46,6 +48,9 @@ function AnnouncementForm(props: Prop) {
       </div>
       <div style={{ margin: 20 }}>
         <TextField fullWidth sx={{ minWidth: 120 }} label="วันที่ประชุม" placeholder="xx-xx-xxxx" variant="outlined" defaultValue={props.announcement.meetDate} inputRef={meetDateRef} />
+      </div>
+      <div style={{ margin: 20 }}>
+        <TextField fullWidth sx={{ minWidth: 300 }} label="รายละเอียดการประชุม" placeholder="ทำการประชุมเพื่อคัดเลือกนักศึกษา" variant="outlined" defaultValue={props.announcement.detail} inputRef={detailRef} />
       </div>
       <div style={{ margin: 20 }}>
         <Button variant="contained" sx={{ mb: 1, float: 'right', verticalAlign: 'bottom' }} onClick={onSubmit}>{props.announcement.id ? 'แก้ไข' : 'ยืนยัน'}</Button>
