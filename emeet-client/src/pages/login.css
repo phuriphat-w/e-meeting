@@ -206,6 +206,15 @@
     padding-left: 0.5rem;
     border-radius: 5px;
   }
+
+  .login-form .text-email {
+    font-family: poppins;
+  }
+
+  .login-form .text-pwd {
+    font-family: Kanit;
+  }
+
   .login-form label {
     margin-top: 1rem;
     margin-bottom: 0.5rem;

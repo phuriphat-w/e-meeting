@@ -6,9 +6,10 @@ import './bg.css';
 import logo from '../images/psu-logo.png'
 import { Form } from "react-bootstrap";
 
-import { getAuth, GoogleAuthProvider, signInWithPopup, signInWithEmailAndPassword } from 'firebase/auth';
+import { getAuth, GoogleAuthProvider, signInWithPopup, signInWithEmailAndPassword, onAuthStateChanged } from 'firebase/auth';
 
 function Login() {
+  
   const { userInfo, action } = useAppCtx();
   const auth = getAuth();
   const navigate = useNavigate();
@@ -70,9 +71,9 @@ function Login() {
               </div>
               <form className="login-form">
               <label htmlFor="email">อีเมล</label>
-                <input ref={emailRef} placeholder="6510110xxx@psu.ac.th" type="email" id="email" />
+                <input className="text-email" ref={emailRef} placeholder="6510110xxx@psu.ac.th" type="email" id="email" />
               <label htmlFor="pwd">รหัสผ่าน</label>
-                <input ref={passwordRef} placeholder="รหัสผ่าน" type="password" id="pwd" />
+                <input className="text-pwd" ref={passwordRef} placeholder="รหัสผ่าน" type="password" id="pwd" />
               </form>
               <div className="field">
                   <button className="login-btn" onClick={() => signInByEMailPass()} disabled={authing}>เข้าสู่ระบบ</button>
