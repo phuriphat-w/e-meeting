@@ -47,6 +47,10 @@ function MeetAppBar() {
       const getMenu = () => {
         return user?.email === "6510110060@psu.ac.th" ? "นัดหมายการประชุม" : "รายการการประชุม";
       };
+
+      const role = () => {
+        return user?.email === "6510110060@psu.ac.th" ? "Admin" : "";
+      }
     
 
   return (
@@ -55,6 +59,19 @@ function MeetAppBar() {
         <div className="logo">
           <img src={Icon} alt='"psu-icon' className="psu-icon"/>
           <h2 className="title">E-Meeting</h2>
+        </div>
+      </div>
+      <div className="user-info-container">
+          <div className="user-info">
+          <AccountBoxIcon sx={{fontSize:36,color:'#143b6c'}}/>
+          {loading ? (
+              <div className="user-info-text">Loading...</div>
+            ) : (
+              <div className="user-info-text">
+              <h1>{user?.email?.substring(0, user?.email?.indexOf("@"))}</h1>
+              <p>{role()}</p>
+            </div>
+          )}
         </div>
       </div>
       <ul className="contents">
@@ -77,20 +94,14 @@ function MeetAppBar() {
           </a>
         </li>
       </ul>
-      <div className="user-info-container">
-        <div className="user-info">
-        <AccountBoxIcon sx={{fontSize:36,color:'#143b6c'}}/>
-        {loading ? (
-            <div className="user-info-text">Loading...</div>
-          ) : (
-            <div className="user-info-text">
-              <h1>{user?.email}</h1>
-              {/* <p>{role}</p> */}
-            </div>
-          )}
-        <LogoutIcon sx={{cursor:'pointer',ml:2,fontSize:28,color:'#143b6c','&:hover':{color:'red'}}} onClick={handleSignOut}/>
-        </div>
-      </div>
+      <ul className="logout-btn">
+        <li onClick={handleSignOut}>
+          <a>
+            <LogoutIcon sx={{color:'#707070',ml:1.5}}/>
+            <span className="menu-text">Logout</span>
+          </a>
+        </li>
+      </ul>
     </div>
   )}
     
