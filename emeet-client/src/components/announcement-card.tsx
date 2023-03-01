@@ -48,7 +48,7 @@ function AnnouncementCard(props: Prop) {
   }
 
   const onDelete = async () => {
-    Swal.fire({
+    await Swal.fire({
       title: 'ลบรายการประชุมหรือไม่?',
       text: "หากลบออกแล้วจะไม่สามารถกู้คืนได้!",
       icon: 'warning',
@@ -57,18 +57,27 @@ function AnnouncementCard(props: Prop) {
       cancelButtonColor: '#d33',
       confirmButtonText: 'ยืนยัน',
       cancelButtonText: 'ยกเลิก'
-    }).then((result) => {
+    }).then(async (result) => {
       if (result.isConfirmed) {
-        Repo.announcements.delete(announcement.id)
-        props.callbackFetchFn()
-        Swal.fire(
-          'ลบเสร็จสิ้น!',
-          'รายการประชุมถูกลบออกจากฐานข้อมูลแล้ว',
-          'success'
-        )
+        try {
+          await Repo.announcements.delete(announcement.id);
+          props.callbackFetchFn();
+          Swal.fire(
+            'ลบเสร็จสิ้น!',
+            'รายการประชุมถูกลบออกจากฐานข้อมูลแล้ว',
+            'success'
+          );
+        } catch (error) {
+          console.error(error);
+          Swal.fire(
+            'เกิดข้อผิดพลาด!',
+            'ไม่สามารถลบรายการประชุมได้',
+            'error'
+          );
+        }
       }
-    })
-  }
+    });
+  };
 
   const handleSelectedFile = (file : any, n : number) => {
     if(file && isImporting == false){
