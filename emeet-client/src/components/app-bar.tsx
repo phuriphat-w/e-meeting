@@ -8,6 +8,7 @@ import NotificationImportantIcon from '@mui/icons-material/NotificationImportant
 import RecentActorsIcon from '@mui/icons-material/RecentActors';
 import AccountBoxIcon from '@mui/icons-material/AccountBox';
 import { getAuth, signOut, onAuthStateChanged  } from 'firebase/auth';
+import Notifications from "./notification/notification";
 
 function MeetAppBar() {
   const navigate = useNavigate();
@@ -79,12 +80,7 @@ function MeetAppBar() {
             <span className="menu-text">{getMenu()}</span>
           </a>
         </li>
-        <li>
-          <a href="#">
-            <NotificationImportantIcon sx={{color:'#707070',ml:1}}/>
-            <span className="menu-text">แจ้งเตือนการประชุม</span>
-          </a>
-        </li>
+          <Notifications />
         <li>
           <a href="#">
             <RecentActorsIcon sx={{color:'#707070',ml:1.5}}/>
