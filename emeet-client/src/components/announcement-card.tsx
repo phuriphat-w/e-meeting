@@ -1,11 +1,10 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Button, Card, CardActionArea, CardActions, CardContent, CardHeader, Dialog, DialogTitle, Grid, IconButton, Tab, Tabs, Typography } from "@mui/material";
 import { Box } from "@mui/system";
-import { Close, Delete, Edit, Upload, Download } from "@mui/icons-material";
+import { Close, Delete, Edit, Upload } from "@mui/icons-material";
 import Announcement from "../models/Announcement";
 import AnnouncementForm from "./announcement-form";
 import Repo from '../repositories'
-import MeetInfo from "../models/MeetInfo";
 import { storage } from "../fireBaseConfig";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import Swal from 'sweetalert2'
@@ -18,7 +17,6 @@ interface Prop {
 
 function AnnouncementCard(props: Prop) {
   const announcement = props.announcement
-  const [meetInfoList, setMeetInfoList] = useState<Partial<MeetInfo>[]>([]);
   const [popup, setPopup] = useState(false);
   const [tabIndex, setTabIndex] = useState(0);
   const [isImporting, setIsImporting] = useState(false);
@@ -26,54 +24,46 @@ function AnnouncementCard(props: Prop) {
   const [agendaSelected, setAgenda] = useState<number>();
   const [downloadURL, setDownloadURL] = useState('');
 
-  const fetchMeetInfoList = async (announcementId: number) => {
-    const result = await Repo.announcements.getMeetInfo(announcementId)
-
-    if (result) {
-        setMeetInfoList([])
-        setMeetInfoList(result)
-        setIsImporting(false)
-    }
-  }
-
   const onUpdate = async (ann: Partial<Announcement>) => {
     const result = await Repo.announcements.update(ann)
     if (result) {
         setPopup(false)
         Swal.fire({
-          title: 'Do you want to save the changes?',
+          title: 'ต้องการแก้ไขหรือไม่?',
           showDenyButton: true,
           showCancelButton: true,
-          confirmButtonText: 'Save',
-          denyButtonText: `Don't save`,
+          confirmButtonText: 'บันทึก',
+          cancelButtonText: 'ยกเลิก',
+          denyButtonText: `ละทิ้ง`,
         }).then((results) => {
           /* Read more about isConfirmed, isDenied below */
           if (results.isConfirmed) {
             props.onUpdateAnnouncement(result)
-            Swal.fire('Saved!', '', 'success')
+            Swal.fire('บันทึกเสร็จสิ้น!', '', 'success')
           } else if (results.isDenied) {
-            Swal.fire('Changes are not saved', '', 'info')
+            Swal.fire('ข้อมูลไม่ถูกบันทึก', '', 'info')
           }
         })
     }
   }
 
   const onDelete = async () => {
-    await Repo.announcements.delete(announcement.id)
     Swal.fire({
-      title: 'Are you sure?',
-      text: "You won't be able to revert this!",
+      title: 'ลบรายการประชุมหรือไม่?',
+      text: "หากลบออกแล้วจะไม่สามารถกู้คืนได้!",
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
       cancelButtonColor: '#d33',
-      confirmButtonText: 'Yes, delete it!'
+      confirmButtonText: 'ยืนยัน',
+      cancelButtonText: 'ยกเลิก'
     }).then((result) => {
       if (result.isConfirmed) {
+        Repo.announcements.delete(announcement.id)
         props.callbackFetchFn()
         Swal.fire(
-          'Deleted!',
-          'Your post has been deleted.',
+          'ลบเสร็จสิ้น!',
+          'รายการประชุมถูกลบออกจากฐานข้อมูลแล้ว',
           'success'
         )
       }
@@ -130,10 +120,6 @@ function AnnouncementCard(props: Prop) {
     event.target.value = null
   }
 
-  useEffect(() => {
-    fetchMeetInfoList(announcement.id)
-}, [announcement.id])
-
   return (
     <Box>
       <Card sx={{ maxWidth: 500, height: 240 }}>
@@ -165,7 +151,6 @@ function AnnouncementCard(props: Prop) {
         <DialogTitle sx={{ display: 'flex', justifyContent: 'space-between' }}>
           <Tabs value={tabIndex} onChange={(event: React.SyntheticEvent, newValue: number) => setTabIndex(newValue)} aria-label="basic tabs example">
             <Tab label="แก้ไขชื่อและวันที่" />
-            <Tab label="ระบุสมาชิกที่มีส่วนร่วม" />
             <Tab label="อัปโหลดไฟล์เอกสาร" />
           </Tabs>
           <IconButton onClick={() => setPopup(false)}>
@@ -175,10 +160,7 @@ function AnnouncementCard(props: Prop) {
         <Box hidden={tabIndex !== 0}>
           <AnnouncementForm announcement={announcement} callbackFn={onUpdate}></AnnouncementForm>
         </Box>
-        <Box hidden={tabIndex !== 1} sx={{ margin: 2 }}>
-          อยู่ระหว่างการพัฒนา
-        </Box>
-        <Box hidden={tabIndex !== 2}>
+        <Box hidden={tabIndex !== 1}>
           <Box sx={{ margin: 2 }}>
             <Typography variant="h6" sx={{ mt: 0.5 }}>
               วาระที่ 1.เรื่องแจ้งเพื่อทราบ

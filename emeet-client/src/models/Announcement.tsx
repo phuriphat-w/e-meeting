@@ -3,6 +3,7 @@ export default interface Announcement{
     topic: string
     meetDate: string
     detail: string
+    place: string
+    agendaRule: string
     pubDateTime: Date
-    userCode: string
 }

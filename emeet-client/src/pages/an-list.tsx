@@ -2,7 +2,6 @@ import { useState, useEffect, ChangeEvent } from "react";
 import { Button, Dialog, DialogTitle, Grid, IconButton, TextField, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import { Add, Close } from '@mui/icons-material/';
-import { useAuth } from "react-oidc-context";
 import AnnouncementCard from "../components/announcement-card";
 import MeetAppbar from "../components/app-bar";
 import AnnouncementForm from "../components/announcement-form";
@@ -12,7 +11,6 @@ import './bg.css';
 import './an-list.css'
 
 function AnnouncementList() {
-  const auth = useAuth();
   const [announcementList, setAnnouncementList] = useState<Announcement[]>([])
   const [searchFilter, setSearchFilter] = useState('');
   const [createFormPopup, setCreateFormPopup] = useState(false);
@@ -38,7 +36,6 @@ function AnnouncementList() {
   }
 
   const onCreateAnnouncement = async (ann: Partial<Announcement>) => {
-    ann.userCode = auth.user?.profile.preferred_username
     await Repo.announcements.create(ann)
     fetchAnnouncementList()
     setCreateFormPopup(false)

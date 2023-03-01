@@ -13,6 +13,8 @@ function AnnouncementForm(props: Prop) {
   const topicRef = useRef<HTMLInputElement>(null);
   const meetDateRef = useRef<HTMLInputElement>(null);
   const detailRef = useRef<HTMLInputElement>(null);
+  const placeRef = useRef<HTMLInputElement>(null);
+  const agenRuleRef = useRef<HTMLInputElement>(null);
 
   const Toast = Swal.mixin({
     toast: true,
@@ -32,11 +34,13 @@ function AnnouncementForm(props: Prop) {
         id: props.announcement.id,
         topic: topicRef.current?.value,
         meetDate: meetDateRef.current?.value,
-        detail: detailRef.current?.value
+        detail: detailRef.current?.value,
+        place: placeRef.current?.value,
+        agendaRule: agenRuleRef.current?.value,
       })
       Toast.fire({
         icon: 'success',
-        title: 'successfully !!'
+        title: 'เพิ่มรายการประชุมสำเร็จ !!'
       })
     }
   }
@@ -51,6 +55,12 @@ function AnnouncementForm(props: Prop) {
       </div>
       <div style={{ margin: 20 }}>
         <TextField fullWidth sx={{ minWidth: 300 }} label="รายละเอียดการประชุม" placeholder="ทำการประชุมเพื่อคัดเลือกนักศึกษา" variant="outlined" defaultValue={props.announcement.detail} inputRef={detailRef} />
+      </div>
+      <div style={{ margin: 20 }}>
+        <TextField fullWidth sx={{ minWidth: 120 }} label="สถานที่ประชุม" placeholder="หัวหุ่น" variant="outlined" defaultValue={props.announcement.place} inputRef={placeRef} />
+      </div>
+      <div style={{ margin: 20 }}>
+        <TextField fullWidth sx={{ minWidth: 300 }} label="กฏวาระ" placeholder="1/2566" variant="outlined" defaultValue={props.announcement.agendaRule} inputRef={agenRuleRef} />
       </div>
       <div style={{ margin: 20 }}>
         <Button variant="contained" sx={{ mb: 1, float: 'right', verticalAlign: 'bottom' }} onClick={onSubmit}>{props.announcement.id ? 'แก้ไข' : 'ยืนยัน'}</Button>

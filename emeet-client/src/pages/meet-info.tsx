@@ -1,36 +1,32 @@
 import { ChangeEvent, useEffect, useState } from 'react';
-import { Grid, MenuItem, Select, SelectChangeEvent, TextField, Typography } from '@mui/material';
+import { Grid, TextField, Typography } from '@mui/material';
 import { Box } from '@mui/system';
 import MeetInfoCard from '../components/meetinfo-card';
-import MeetInfo from '../models/MeetInfo';
+import Announcement from '../models/Announcement';
 import Repo from '../repositories'
 import MeetAppbar from '../components/app-bar';
 import './meet-info.css'
 
 function MeetInfoList() {
-    const [meetInfoList, setMeetInfoList] = useState<MeetInfo[]>([])
+    const [annList, setAnnList] = useState<Announcement[]>([])
     const [selectFilter, setSelectFilter] = useState('')
     const [searchFilter, setSearchFilter] = useState('')
 
-    const onUpdateMeetInfo = (meetInfo: MeetInfo) => {
-        setMeetInfoList(prevMeetInfoList => prevMeetInfoList.map(item => item.id === meetInfo.id ? meetInfo : item))}
+    const onUpdateAnn = (ann: Announcement) => {
+        setAnnList(prevAnnList => prevAnnList.map(item => item.id === ann.id ? ann : item))}
 
-    const fetchMeetInfoList = async () => {
+    const fetchAnnList = async () => {
         let params: { keyword?: string} = {}
         if (searchFilter) {
             params.keyword = searchFilter
         }
-        const result = await Repo.meetInfo.getAll(params)
+        const result = await Repo.announcements.getAll(params)
         if (result) {
-            if (meetInfoList.length) {
-                setMeetInfoList([])
+            if (annList.length) {
+                setAnnList([])
             }
-            setMeetInfoList(result)
+            setAnnList(result)
         } 
-    }
-
-    const handleChangeSelectFilter = (event: SelectChangeEvent) => {
-        setSelectFilter(event.target.value)
     }
 
     const handleChangeSearchFilter = (event: ChangeEvent<HTMLInputElement>) => {
@@ -38,7 +34,7 @@ function MeetInfoList() {
     }
 
     useEffect(() => {
-        fetchMeetInfoList()
+        fetchAnnList()
     }, [selectFilter, searchFilter])
 
     return (
@@ -52,18 +48,18 @@ function MeetInfoList() {
            </div>
            <div className="card-layout">
             <TextField sx={{ m: 2, minWidth: 120 }} label="Search" placeholder="Topic" variant="outlined" value={searchFilter} onChange={handleChangeSearchFilter} />
-            {meetInfoList.length
+            {annList.length
               ?
               <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 2, sm: 8, md: 12, lg: 12, xl: 10}}>
-                {meetInfoList.map((meetInfo, index) => 
+                {annList.map((announcement, index) => 
                     <Grid item xs={2} sm={4} md={4} lg={3} xl={2} key={index}>
-                        <MeetInfoCard meetInfo={meetInfo} onUpdateMeetInfo={onUpdateMeetInfo}></MeetInfoCard>
+                        <MeetInfoCard announcement={announcement} onUpdateAnnouncement={onUpdateAnn}></MeetInfoCard>
                     </Grid>
                 )}
               </Grid>
               :
               <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: 400}}>
-                <Typography variant='body2' color='text.secondary'>No Result Found</Typography>
+                <Typography variant='body2' color='text.secondary'>ไม่พบรายการการประชุม</Typography>
               </Box>
             }
             </div>

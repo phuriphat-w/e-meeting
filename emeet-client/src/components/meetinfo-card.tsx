@@ -2,23 +2,23 @@ import { useState } from "react";
 import { Button, Card, CardActionArea, CardActions, CardContent, CardHeader, Dialog, DialogContent, DialogTitle, Grid, IconButton, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import { Close } from '@mui/icons-material/';
-import MeetInfo from "../models/MeetInfo";
+import Announcement from "../models/Announcement";
 import { storage } from "../fireBaseConfig";
 
 import { ref, getDownloadURL, listAll } from "firebase/storage";
 
 interface Prop {
-    meetInfo: MeetInfo
-    onUpdateMeetInfo: (meetInfo: MeetInfo) => void;
+  announcement: Announcement
+  onUpdateAnnouncement : (announcement: Announcement) => void;
 }
 
 function MeetInfoCard(props: Prop) {
-  const meetInfo = props.meetInfo
+  const announcement = props.announcement;
   const [popup, setPopup] = useState(false);
 
   const downloadURL = (n : number) => {
     // Create a reference under which you want to list
-    const listRef = ref(storage, 'meetDoc/annId_'+ meetInfo.announcement?.id + '/agenId_' + n);
+    const listRef = ref(storage, 'meetDoc/annId_'+ announcement.id + '/agenId_' + n);
 
     // Find all the prefixes and items.
     listAll(listRef)
@@ -93,24 +93,24 @@ function MeetInfoCard(props: Prop) {
       <Card sx={{ maxWidth: 500, height: 250 }}>
         <CardHeader
           sx={{ height: '30%' }}
-          title={meetInfo.announcement?.topic}
-          subheader={meetInfo.announcement?.meetDate}
+          title={announcement.topic}
+          subheader={announcement.meetDate}
         />
         <CardActionArea sx={{ height: '56%' }} onClick={() => setPopup(true)}>
           <CardContent sx={{ height: '40%' }}>
             <Grid container spacing={2} columns={5}>
               <Grid item xs={3}>
                 <Typography variant="h5" component="div">
-                  {meetInfo.place}
+                  {announcement.place}
                 </Typography>
                 <Typography variant="caption" color="text.secondary">
-                  {meetInfo.agendaRule}
+                  {announcement.agendaRule}
                 </Typography>
               </Grid>
             </Grid>
           </CardContent>
           <CardActions sx={{ justifyContent: 'flex-end' }}>
-            <Typography variant="button" color="primary">Details</Typography>
+            <Typography variant="button" color="primary">รายละเอียด</Typography>
           </CardActions>
         </CardActionArea>
       </Card>
@@ -118,7 +118,7 @@ function MeetInfoCard(props: Prop) {
       <Dialog PaperProps={{ sx: { minWidth: "50%", maxHeight: "100%" } }} open={popup} onClose={() => setPopup(false)}>
         <DialogTitle sx={{ display: 'flex', justifyContent: 'space-between' }}>
           <Typography variant="h4" sx={{ mt: 1 }}>
-            {meetInfo.announcement?.topic}
+            {announcement.topic}
           </Typography>
           <IconButton onClick={() => setPopup(false)}>
             <Close />
@@ -127,13 +127,13 @@ function MeetInfoCard(props: Prop) {
         <DialogContent dividers>
           
           <Typography variant="h6" sx={{ mt: 1 }}>
-            ประชุมวันที่: {meetInfo.announcement?.meetDate}
+            ประชุมวันที่: {announcement.meetDate}
           </Typography>
           <Typography variant="h6" sx={{ mt: 1 }}>
-            สถานที่: {meetInfo.place}
+            สถานที่: {announcement.place}
           </Typography>
           <Typography variant="h6" sx={{ mt: 1 }}>
-            ระเบียบการวาระประชุม: {meetInfo.agendaRule}
+            ระเบียบการวาระประชุม: {announcement.agendaRule}
           </Typography>
           <Typography variant="h4" sx={{ mt: 1 }}>
             วาระการประชุม

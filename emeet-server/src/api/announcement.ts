@@ -1,7 +1,5 @@
 import Koa from 'koa'
-import { AuthData } from '../auth'
 import Router from 'koa-router'
-import { pick } from 'lodash'
 import db from '../db'
 const router = new Router()
 
@@ -19,12 +17,9 @@ const prepareAnnoucementById = async (ctx: Koa.Context, next: () => Promise<any>
   await next()
 }
 
-const MEET_INFO_BINDABLE = ['place', 'agendaRule']
-
 router
   .get('/', async (ctx, next) => {            
-    const authData = ctx.state.authData as AuthData
-    let query = makeQuery().where({ 'announcement.userCode': authData.username })
+    let query = makeQuery()
     if (ctx.request.query['keyword']) {
       const keyword = String(ctx.request.query['keyword'])
       query = query.where((it) => {it.where('topic', 'like', `%${keyword}%`)})
@@ -52,31 +47,6 @@ router
     const id = parseInt(ctx.params.id)
     const rowUpdated = await findById(id).del()
     ctx.body = {statusCode: rowUpdated > 0 ? 1 : 0}
-  })
-  .get('/:id/meet', prepareAnnoucementById, async (ctx, next) => {
-    const announcement = ctx.state.announcement
-    ctx.body = await db('meetinfo').select('*').where({'announcementId': announcement.id}).orderBy('userCode', 'asc')
-  })
-  .post('/:id/meet', prepareAnnoucementById, async (ctx, next) => {
-    const announcement = ctx.state.announcement
-    const items = ctx.request.body as any[]    
-    for(let item of items){
-      console.log('processing..', item)
-      const query = db('meetinfo').where({id: item.id})
-      if(item.id){
-        if(item._updated){
-          item = pick(item, MEET_INFO_BINDABLE)
-          await query.update(item)
-        }else if(item._deleted){
-          await query.del()
-        }
-      }else{
-        item.announcementId = announcement.id
-        item.update_date_time = new Date()
-        await db('meetinfo').insert(item)
-      }
-    }
-    ctx.body = {statusCode: 1}
   })
 
 export default router

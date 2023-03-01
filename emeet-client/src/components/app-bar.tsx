@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
-import { useAppCtx } from "../AppProvider";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import "./app-bar.css";
 import Icon from '../images/psu-icon.png';
 import GroupsIcon from '@mui/icons-material/Groups';
@@ -11,7 +10,6 @@ import AccountBoxIcon from '@mui/icons-material/AccountBox';
 import { getAuth, signOut, onAuthStateChanged  } from 'firebase/auth';
 
 function MeetAppBar() {
-  const { userInfo, action } = useAppCtx()
   const navigate = useNavigate();
   const auth = getAuth();
   const user = auth.currentUser;
