@@ -9,6 +9,7 @@ exports.up = function(knex) {
         table.string('place', 1000);
         table.string('agenda_rule', 1000);
         table.timestamp('pub_date_time', { useTz: false });
+        table.datetime('recognize_time', { useTz: false});
       })
   };
   

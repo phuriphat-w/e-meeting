@@ -34,4 +34,9 @@ export class AnnouncementRepository implements IRepository<Announcement> {
   async delete(id: string|number): Promise<void> {
     await ax.delete<void>(`${this.urlPrefix}/announcement/${id}`)
   }
+
+  async read(id: string|number): Promise<Announcement | null> {
+    const resp = await ax.get<Announcement>(`${this.urlPrefix}/announcement/${id}/Read`)
+    return resp.data
+  }
 }

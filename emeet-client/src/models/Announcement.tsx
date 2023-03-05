@@ -6,4 +6,5 @@ export default interface Announcement{
     place: string
     agendaRule: string
     pubDateTime: Date
+    recognizeTime: Date
 }
