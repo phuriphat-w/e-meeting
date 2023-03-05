@@ -1,6 +1,7 @@
-import { Button, Typography, Grid } from "@mui/material";
+import { Typography, Grid } from "@mui/material";
 import { Box } from "@mui/system";
 import { useState, useEffect } from "react";
+
 import Announcement from "../../models/Announcement";
 import Repo from '../../repositories';
 import NotificationCard from "./NotificationCard";
@@ -11,7 +12,7 @@ function NotificationPopup(): JSX.Element {
   const onUpdateAnnouncement = (announcement: Announcement) => {
     setAnnList(prevAnnList => prevAnnList.map(item => item.id === announcement.id ? announcement : item))}
 
-  const unReadCount = annList.filter(ann => !ann.recognizeTime).length;
+  const unReadCount = annList.filter(ann => !ann.isMeetingEnd).length;
 
   const fetchAnnList = async () => {
     let params: { keyword?: string} = {}
@@ -26,21 +27,12 @@ function NotificationPopup(): JSX.Element {
 
 }
 
-  const handleRecognize = async () => {
-    for(const data of annList){
-      const result = await Repo.announcements.read(data.id)
-      if (result) {
-        onUpdateAnnouncement(result)
-      }}
-  }
-
-
   useEffect(() => {
       fetchAnnList();
   }, []);
 
   return (
-    <Box sx={{ width: 500, height: 1000}}>
+    <Box sx={{ width: 400, height: 1000}}>
       <div>
         {unReadCount
           ?
@@ -48,7 +40,7 @@ function NotificationPopup(): JSX.Element {
             container spacing={2}
           >
             {annList.map((announcement, index) => 
-                <Grid item md={17} key={index}>
+                <Grid item mx={10} key={index} sx={{ display: 'flex', alignItems: 'center', justifyContent: 'right', width: 660}}>
                     <NotificationCard announcement={announcement} onUpdateAnnouncement={onUpdateAnnouncement}></NotificationCard>
                 </Grid>
             )}
@@ -58,9 +50,6 @@ function NotificationPopup(): JSX.Element {
             <Typography variant='body2' color='text.secondary'>ไม่พบรายการการประชุม</Typography>
           </Box>
         }
-      </div>
-      <div style={{ margin: 20 }}>
-        <Button disabled={unReadCount === 0} variant="contained" sx={{ mb: 1, verticalAlign: 'bottom', width: 690, height: 50}} onClick={handleRecognize}>อ่านทั้งหมด</Button>
       </div>
     </Box>
   );

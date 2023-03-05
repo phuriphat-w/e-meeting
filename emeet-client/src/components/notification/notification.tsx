@@ -27,7 +27,7 @@ function Notifications(): JSX.Element {
 
 useEffect(() => {
     fetchAnnList()
-    const unReadCount = annList.filter(ann => !ann.recognizeTime).length;
+    const unReadCount = annList.filter(ann => !ann.isMeetingEnd).length;
     setCount(unReadCount)
   }, [annList])
 
