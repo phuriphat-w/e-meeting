@@ -7,4 +7,5 @@ export default interface Announcement{
     agendaRule: string
     pubDateTime: Date
     recognizeTime: Date
+    isMeetingEnd: boolean
 }

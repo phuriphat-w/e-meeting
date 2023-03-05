@@ -10,6 +10,7 @@ exports.up = function(knex) {
         table.string('agenda_rule', 1000);
         table.timestamp('pub_date_time', { useTz: false });
         table.datetime('recognize_time', { useTz: false});
+        table.boolean('is_meeting_end');
       })
   };
   

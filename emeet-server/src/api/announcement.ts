@@ -69,4 +69,18 @@ router
 
   })
 
+  .get('/:id/meetingEnd/:value', async (ctx, next) => {
+    const id = parseInt(ctx.params.id)
+    const isMeetingEnd = ctx.params.value == '1'
+    const rowUpdated = await updateAnouncement(id, { isMeetingEnd })
+    if(rowUpdated == 0){
+        ctx.response.status = 404
+        return
+    }
+    const announcement = await findById(id)
+    const result = announcement.map(it => nestObject(it,'announcement'))
+    ctx.body = result[0]
+
+  })
+
 export default router

@@ -39,4 +39,10 @@ export class AnnouncementRepository implements IRepository<Announcement> {
     const resp = await ax.get<Announcement>(`${this.urlPrefix}/announcement/${id}/Read`)
     return resp.data
   }
+
+  async MeetingEnd(id: string|number, meetingEnd:boolean): Promise<Announcement | null> {
+    const  Value = meetingEnd ? 'meetingEnd/1' : 'meetingEnd/0'
+    const resp = await ax.get<Announcement>(`${this.urlPrefix}/announcement/${id}/${Value}`)
+    return resp.data
+  }
 }
