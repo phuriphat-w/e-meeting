@@ -79,6 +79,17 @@ function AnnouncementCard(props: Prop) {
     });
   };
 
+  const handleMeeting = async () => {
+    const result = await Repo.announcements.MeetingEnd(announcement.id, true)
+    const datetime = await Repo.announcements.read(announcement.id)
+    if(result) {
+      props.onUpdateAnnouncement(result)
+    }
+    if(datetime){
+      props.onUpdateAnnouncement(datetime)
+    }
+  }
+
   const handleSelectedFile = (file : any, n : number) => {
     if(file && isImporting == false){
       setAgenda(n)
@@ -161,6 +172,7 @@ function AnnouncementCard(props: Prop) {
           <Tabs value={tabIndex} onChange={(event: React.SyntheticEvent, newValue: number) => setTabIndex(newValue)} aria-label="basic tabs example">
             <Tab label="แก้ไขชื่อและวันที่" />
             <Tab label="อัปโหลดไฟล์เอกสาร" />
+            <Tab label="สิ้นสุดการประชุม" />
           </Tabs>
           <IconButton onClick={() => setPopup(false)}>
             <Close />
@@ -234,6 +246,18 @@ function AnnouncementCard(props: Prop) {
           <Button disabled={!isImporting} variant="contained" component="label" sx={{ mx: 4, my: 1 }} onClick={handleCancelFile}>
             ยกเลิก
           </Button>
+        </Box>
+        <Box hidden={tabIndex !== 2}>
+        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'flex-end' }}>
+          <Button disabled={announcement.isMeetingEnd} variant="contained" sx={{ mx: 4, my: 1, verticalAlign: 'bottom', width: 200, height: 50}} onClick={handleMeeting}>
+            สิ้นสุดการประชุม
+          </Button>
+          
+        </div>
+        {announcement.recognizeTime &&
+        <Typography variant="h6" sx={{ display: 'flex', justifyContent: 'center', alignItems: 'flex-end' }}>
+              {new Date(announcement?.recognizeTime!.toString()).toLocaleString()}
+          </Typography>}
         </Box>
       </Dialog>
     </Box>
