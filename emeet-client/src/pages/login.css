@@ -7,18 +7,24 @@
 }
 
 .main-login {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     min-height: 100vh;
-    min-width: 100vw;
-    overflow-x: hidden;
-    background-color: #EDF2F8 ;
+    width: 100%;
+
+    background: url('../../public/image1.jpg');
+    background-position: center;
+    background-size: cover;
 }
 
 .login-container {
     height: 75vh;
     width: 70%;
-    background: linear-gradient(to right, #2DAAE1 50%, #fff 50%) ;
+    background: linear-gradient(to right,#9dc8faa8 50%, rgba(255, 255, 255, 0.789) 50%) ;
     margin: 6rem auto;
     box-shadow: 0.5rem 0.5rem 2rem -1rem rgb(165, 162, 160);
+
     /* border-radius: 20px; */
     display: flex;
     justify-content: center;
@@ -37,14 +43,14 @@
 .text {
   /* border: 1px solid red; */
     color: #143B6C;
-    font-size: 30px;
+    font-size: 25px;
     font-weight: 700;
     font-family: Kanit;
 
 }
 
 .header {
-    font-size: 60px;
+    font-size: 45px;
 }
 .psu-logo {
     width: 100%;

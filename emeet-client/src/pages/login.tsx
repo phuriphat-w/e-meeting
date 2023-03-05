@@ -4,7 +4,6 @@ import { useAppCtx } from '../AppProvider';
 import './login.css';
 import './bg.css';
 import logo from '../images/psu-logo.png'
-import { Form } from "react-bootstrap";
 
 import { getAuth, GoogleAuthProvider, signInWithPopup, signInWithEmailAndPassword, onAuthStateChanged } from 'firebase/auth';
 
@@ -67,7 +66,7 @@ function Login() {
             <div className="login-right">
               <div className="text-box">
                 <h1 className="text header">E-Meeting</h1>
-                <p className="text sup">รายการการประชุมสำหรับนศ.คณะวิศวกรรมศาสตร์</p>
+                <p className="text sup">รายการการประชุมสำหรับนักศึกษาคณะวิศวกรรมศาสตร์</p>
               </div>
               <form className="login-form">
               <label htmlFor="email">อีเมล</label>
