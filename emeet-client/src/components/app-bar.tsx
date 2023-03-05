@@ -85,12 +85,6 @@ function MeetAppBar() {
             <Notifications/>
           </a>
         </li>
-        <li>
-          <a href="#">
-            <RecentActorsIcon sx={{color:'#707070',ml:1.5}}/>
-            <span className="menu-text">รายชื่อสมาชิก</span>
-          </a>
-        </li>
       </ul>
       <ul className="logout-btn">
         <li onClick={handleSignOut}>
