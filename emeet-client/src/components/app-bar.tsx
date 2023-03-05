@@ -80,7 +80,11 @@ function MeetAppBar() {
             <span className="menu-text">{getMenu()}</span>
           </a>
         </li>
-          <Notifications />
+        <li>
+          <a>
+            <Notifications/>
+          </a>
+        </li>
         <li>
           <a href="#">
             <RecentActorsIcon sx={{color:'#707070',ml:1.5}}/>

@@ -1,40 +1,55 @@
 import { useState, useEffect } from "react";
-import { Button, Dialog, DialogTitle, Grid, IconButton, TextField, Typography } from "@mui/material";
-import { Box } from "@mui/system";
+import { Dialog, DialogTitle, IconButton } from "@mui/material";
 import { Close } from '@mui/icons-material/';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import Badge from '@mui/material/Badge';
-import NotificationPopup from "./notificationPopup"
 
-function Notifications() {
+import NotificationPopup from "./notificationPopup"
+import Repo from '../../repositories';
+import Announcement from "../../models/Announcement";
+
+function Notifications(): JSX.Element {
     const [popup, setPopup] = useState(false);
     const [count, setCount] = useState(0);
+    const [annList, setAnnList] = useState<Announcement[]>([]);
+
+    const fetchAnnList = async () => {
+        let params: { keyword?: string} = {}
+    
+        const result = await Repo.announcements.getAll(params)
+        if (result) {
+            if (annList.length) {
+                setAnnList([])
+            }
+            setAnnList(result)
+        } 
+    }
+
+useEffect(() => {
+    fetchAnnList()
+    const unReadCount = annList.filter(ann => !ann.recognizeTime).length;
+    setCount(unReadCount)
+  }, [annList])
 
     return (
-        <Box>
-        <IconButton
-              size="large"
-              aria-label="show 17 new notifications"
-              color="inherit"
-              onClick={() => setPopup(true)}
-            >
-            <Badge badgeContent={count} color="error">
-                <NotificationsIcon />
-                
-            </Badge><span className="menu-text">แจ้งเตือนการประชุม</span>
-              
-        </IconButton>
-        <Dialog PaperProps={{ sx: { minWidth: "50%" } }} open={popup} onClose={() => setPopup(false)}>
-            <DialogTitle sx={{ display: 'flex', justifyContent: 'space-between' }}>
-                แจ้งเตือนการประชุม
-                <IconButton onClick={() => setPopup(false)}>
-                    <Close />
-                </IconButton>
-            </DialogTitle>
-            < NotificationPopup></ NotificationPopup>
-      </Dialog>
-    
-    </Box>
+        <div>
+            <div onClick={() => setPopup(true)}>
+                <Badge badgeContent={count} color="error">
+                    <NotificationsIcon sx={{color:'#707070',ml:1.5}}/> 
+                </Badge>
+                <span className="menu-text">แจ้งเตือนการประชุม</span>
+            </div>
+
+            <Dialog PaperProps={{ sx: { minWidth: "50%" } }} open={popup} onClose={() => setPopup(false)}>
+                <DialogTitle sx={{ display: 'flex', justifyContent: 'space-between' }}>
+                    แจ้งเตือนการประชุม
+                    <IconButton onClick={() => setPopup(false)}>
+                        <Close />
+                    </IconButton>
+                </DialogTitle>
+                <NotificationPopup/>
+            </Dialog>
+        </div>
     )
 }
 
