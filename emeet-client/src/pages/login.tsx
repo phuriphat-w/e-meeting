@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import './login.css';
 import './bg.css';
 import logo from '../images/psu-logo.png'
+import Swal from 'sweetalert2'
 
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 
@@ -21,17 +22,29 @@ function Login() {
     signInWithEmailAndPassword(auth, emailRef.current!.value, passwordRef.current!.value)
     .then(response => {
       console.log(response.user.uid);
+    
       if (response.user.email === '6510110060@psu.ac.th'){
         navigate('/announcement');
       }
       else {
         navigate('/home');
       }
-      
+      Swal.fire({
+        position: 'center',
+        icon: 'success',
+        title: 'ล็อกอินสำเร็จ',
+        showConfirmButton: false,
+      })
     })
     .catch(error => {
       console.log(error);
       setAuthing(false);
+      Swal.fire({
+        position: 'center',
+        icon: 'error',
+        title: 'ล็อกอินไม่สำเร็จ',
+        showConfirmButton: false,
+      })
     })
   }
 
