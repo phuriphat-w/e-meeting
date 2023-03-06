@@ -35,7 +35,7 @@ function MeetInfoList() {
 
     useEffect(() => {
         fetchAnnList()
-    }, [selectFilter, searchFilter])
+    }, [selectFilter, searchFilter, annList])
 
     return (
         <div className="page-layout">

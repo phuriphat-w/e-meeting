@@ -148,10 +148,15 @@ function MeetInfoCard(props: Prop) {
           <Typography variant="h4" sx={{ mt: 1 }}>
             {announcement.topic}
           </Typography>
+          
           <IconButton onClick={() => setPopup(false)}>
             <Close />
           </IconButton>
         </DialogTitle>
+        {announcement.recognizeTime &&
+          <Typography  variant="h6" sx={{ mt: 1}}  marginLeft={3}>
+            สิ้นสุดการประชุมเวลา: {new Date(announcement?.recognizeTime!.toString()).toLocaleString("en-GB")}
+          </Typography>}
         <DialogContent dividers>
           
           <Typography variant="h6" sx={{ mt: 1 }}>
