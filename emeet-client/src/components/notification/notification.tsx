@@ -25,11 +25,11 @@ function Notifications(): JSX.Element {
         } 
     }
 
-useEffect(() => {
-    fetchAnnList()
-    const unReadCount = annList.filter(ann => !ann.isMeetingEnd).length;
-    setCount(unReadCount)
-  }, [annList])
+    useEffect(() => {
+        fetchAnnList()
+        const unReadCount = annList.filter(ann => !ann.isMeetingEnd).length;
+        setCount(unReadCount)
+    }, [annList])
 
     return (
         <div>

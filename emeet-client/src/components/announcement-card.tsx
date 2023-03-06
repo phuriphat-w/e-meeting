@@ -22,7 +22,7 @@ function AnnouncementCard(props: Prop) {
   const [isImporting, setIsImporting] = useState(false);
   const [fileSelected, setFile] = useState<File>();
   const [agendaSelected, setAgenda] = useState<number>();
-  const [downloadURL, setDownloadURL] = useState('');
+  //const [downloadURL, setDownloadURL] = useState('');
 
   const onUpdate = async (ann: Partial<Announcement>) => {
     const result = await Repo.announcements.update(ann)
@@ -91,7 +91,7 @@ function AnnouncementCard(props: Prop) {
   }
 
   const handleSelectedFile = (file : any, n : number) => {
-    if(file && isImporting == false){
+    if(file && isImporting === false){
       setAgenda(n)
       setIsImporting(true)
       setFile(file[0])
@@ -103,7 +103,7 @@ function AnnouncementCard(props: Prop) {
   }
 
   const handleImport = async (event: any) => {
-    if (fileSelected && isImporting == true){
+    if (fileSelected && isImporting === true){
       setIsImporting(false)
       const name = fileSelected.name
       const storageRef = ref(storage, 'meetDoc/annId_'+ announcement.id + '/agenId_' + agendaSelected + '/' + name)
@@ -131,7 +131,7 @@ function AnnouncementCard(props: Prop) {
           // Handle successful uploads on complete
           // For instance, get the download URL: https://firebasestorage.googleapis.com/...
           getDownloadURL(uploadTask.snapshot.ref).then((url) => {
-            setDownloadURL(url)
+            //setDownloadURL(url)
           });
         }
       );
@@ -224,7 +224,7 @@ function AnnouncementCard(props: Prop) {
               <input hidden type="file" accept=".pdf" onChange={(file) => handleSelectedFile(file.target.files, 5)} />
             </Button>
             <Typography variant="h6" sx={{ mt: 0.5 }}>
-              วาระที่ 6.เรื่องอื่น
+              วาระที่ 6.เรื่องอื่นๆ
             </Typography>
             <Button disabled={isImporting} variant="contained" component="label" sx={{ mx: 1 }}>
               <Upload />

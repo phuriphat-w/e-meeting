@@ -24,12 +24,11 @@ function NotificationPopup(): JSX.Element {
       }
       setAnnList(result)
     }
-
-}
+  }
 
   useEffect(() => {
       fetchAnnList();
-  }, []);
+  });
 
   return (
     <Box sx={{ width: 400, height: 1000}}>

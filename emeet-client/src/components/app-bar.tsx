@@ -4,8 +4,6 @@ import "./app-bar.css";
 import Icon from '../images/psu-icon.png';
 import GroupsIcon from '@mui/icons-material/Groups';
 import LogoutIcon from '@mui/icons-material/Logout';
-import NotificationImportantIcon from '@mui/icons-material/NotificationImportant';
-import RecentActorsIcon from '@mui/icons-material/RecentActors';
 import AccountBoxIcon from '@mui/icons-material/AccountBox';
 import { getAuth, signOut, onAuthStateChanged  } from 'firebase/auth';
 import Notifications from "./notification/notification";
@@ -20,7 +18,7 @@ function MeetAppBar() {
       const listen = onAuthStateChanged(auth, (user) =>  {
         if (user) {
           setLoading(false);
-          const email = user.email;
+          //const email = user.email;
         }else{
         }
       });
@@ -28,7 +26,7 @@ function MeetAppBar() {
         return () => {
           listen();
         }
-    }, []);
+    });
 
       const handleSignOut = () => {
         signOut(auth).then(() => {

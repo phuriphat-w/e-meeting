@@ -1,15 +1,13 @@
 import { useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAppCtx } from '../AppProvider';
 import './login.css';
 import './bg.css';
 import logo from '../images/psu-logo.png'
 
-import { getAuth, GoogleAuthProvider, signInWithPopup, signInWithEmailAndPassword, onAuthStateChanged } from 'firebase/auth';
+import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 
 function Login() {
   
-  const { userInfo, action } = useAppCtx();
   const auth = getAuth();
   const navigate = useNavigate();
   const [authing, setAuthing] = useState(false);
@@ -17,27 +15,13 @@ function Login() {
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
 
-  const signInWithGoogle = async () => {
-    setAuthing(true);
-
-    signInWithPopup(auth, new GoogleAuthProvider())
-    .then(response => {
-      console.log(response.user.uid);
-      navigate('/');
-    })
-    .catch(error => {
-      console.log(error);
-      setAuthing(false);
-    })
-  }
-
   const signInByEMailPass = async () => {
     setAuthing(true);
 
     signInWithEmailAndPassword(auth, emailRef.current!.value, passwordRef.current!.value)
     .then(response => {
       console.log(response.user.uid);
-      if (response.user.email == '6510110060@psu.ac.th'){
+      if (response.user.email === '6510110060@psu.ac.th'){
         navigate('/announcement');
       }
       else {
