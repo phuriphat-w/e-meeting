@@ -3,9 +3,8 @@ import { Button, Card, CardActionArea, CardActions, CardContent, CardHeader, Dia
 import { Box } from "@mui/system";
 import { Close } from '@mui/icons-material/';
 import Announcement from "../models/Announcement";
-import { storage } from "../fireBaseConfig";
 
-import { ref, getDownloadURL, listAll } from "firebase/storage";
+import { ref, getDownloadURL, listAll, getStorage } from "firebase/storage";
 
 interface Prop {
   announcement: Announcement
@@ -16,79 +15,74 @@ function MeetInfoCard(props: Prop) {
   const announcement = props.announcement;
   const [popup, setPopup] = useState(false);
   const disable = announcement.isMeetingEnd;
+  const storage = getStorage();
+  const [data1, setData1] = useState<string[]>([]);
+  const [data2, setData2] = useState<string[]>([]);
+  const [data3, setData3] = useState<string[]>([]);
+  const [data4, setData4] = useState<string[]>([]);
+  const [data5, setData5] = useState<string[]>([]);
+  const [data6, setData6] = useState<string[]>([]);
+  const [data7, setData7] = useState<string[]>([]);
+  const [fileSelected, setFileSelected] = useState(false);
 
-  const downloadURL = (n : number) => {
+  const ListAll = (n : number) => {
+    if(fileSelected == true){
+      setData1([]);
+      setData2([]);
+      setData3([]);
+      setData4([]);
+      setData5([]);
+      setData6([]);
+      setData7([]);
+      setFileSelected(false)
+    }
+
+    if(fileSelected == false){
+      const fileRef = ref(storage, 'meetDoc/annId_'+ announcement.id + '/agenId_' + n);
+      listAll(fileRef)
+        .then((res) => {
+          res.items.forEach((itemRef) => {
+            if(n === 1){
+              setData1((arr: string[]) => [...arr, itemRef.name]);
+            }
+            if(n === 2){
+              setData2((arr: string[]) => [...arr, itemRef.name]);
+            }
+            if(n === 3){
+              setData3((arr: string[]) => [...arr, itemRef.name]);
+            }
+            if(n === 4){
+              setData4((arr: string[]) => [...arr, itemRef.name]);
+            }
+            if(n === 5){
+              setData5((arr: string[]) => [...arr, itemRef.name]);
+            }
+            if(n === 6){
+              setData6((arr: string[]) => [...arr, itemRef.name]);
+            }
+            if(n === 7){
+              setData7((arr: string[]) => [...arr, itemRef.name]);
+            }
+            setFileSelected(true);
+          })
+        }).catch((error) => {
+          // Uh-oh, an error occurred!
+        });
+      }
+  }
+
+  const downloadURL = (n : number, name : string) => {
     // Create a reference under which you want to list
-    const listRef = ref(storage, 'meetDoc/annId_'+ announcement.id + '/agenId_' + n);
+    const listRef = ref(storage, 'meetDoc/annId_'+ announcement.id + '/agenId_' + n + '/' + name);
 
-    // Find all the prefixes and items.
-    listAll(listRef)
-      .then((res) => {
-        res.prefixes.forEach((folderRef) => {
-          // pass
-        });
-        res.items.forEach((itemRef) => {
-          const starsRef = ref(storage, itemRef.fullPath);
-          getDownloadURL(starsRef)
-            .then((url) => {
+    getDownloadURL(listRef)
+      .then((url) => {
               //console.log(url);
-              window.open(url, "_blank");
-            })
-            .catch((error) => {
-              // A full list of error codes is available at
-              // https://firebase.google.com/docs/storage/web/handle-errors
-              switch (error.code) {
-                case 'storage/object-not-found':
-                  // File doesn't exist
-                  break;
-                case 'storage/unauthorized':
-                  // User doesn't have permission to access the object
-                  break;
-                case 'storage/canceled':
-                  // User canceled the upload
-                  break;
-
-                // ...
-
-                case 'storage/unknown':
-                  // Unknown error occurred, inspect the server response
-                  break;
-              }
-            });
-        });
-      }).catch((error) => {
-        // Uh-oh, an error occurred!
-      });
+        window.open(url, "_blank");
+      })
+        
   }
 
-  const agen1 = () => {
-    downloadURL(1)
-  }
-
-  const agen2 = () => {
-    downloadURL(2)
-  }
-
-  const agen3 = () => {
-    downloadURL(3)
-  }
-
-  const agen4 = () => {
-    downloadURL(4)
-  }
-
-  const agen5 = () => {
-    downloadURL(5)
-  }
-
-  const agen6 = () => {
-    downloadURL(6)
-  }
-
-  const agen7 = () => {
-    downloadURL(7)
-  }
-  
   return (
     <Box>
       {!disable
@@ -158,7 +152,7 @@ function MeetInfoCard(props: Prop) {
             สิ้นสุดการประชุมเวลา: {new Date(announcement?.recognizeTime!.toString()).toLocaleString("en-GB")}
           </Typography>}
         <DialogContent dividers>
-          
+
           <Typography variant="h6" sx={{ mt: 1 }}>
             ประชุมวันที่: {announcement.meetDate}
           </Typography>
@@ -171,33 +165,54 @@ function MeetInfoCard(props: Prop) {
           <Typography variant="h4" sx={{ mt: 1 }}>
             วาระการประชุม
           </Typography>
-          <Button  onClick={agen1}>
+          <Button onClick={() => ListAll(1)}>
             1. เรื่องแจ้งเพื่อทราบ
           </Button>
+          {data1.map((file) => (
+            <Button sx={{ color: '#2C3333' }} onClick={() => downloadURL(1, file)}>{file}</Button>
+          ))}
           <Typography></Typography>
-          <Button  onClick={agen2}>
+          <Button  onClick={() => ListAll(2)}>
             2. รับรองรายงานการประชุม
           </Button>
+          {data2.map((file) => (
+            <Button sx={{ color: '#2C3333' }} onClick={() => downloadURL(2, file)}>{file}</Button>
+          ))}
           <Typography></Typography>
-          <Button  onClick={agen3}>
+          <Button  onClick={() => ListAll(3)}>
             3. เรื่องสืบเนื่องจากการประชุมครั้งที่แล้ว
           </Button>
+          {data3.map((file) => (
+            <Button sx={{ color: '#2C3333' }} onClick={() => downloadURL(3, file)}>{file}</Button>
+          ))}
           <Typography></Typography>
-          <Button  onClick={agen4}>
+          <Button  onClick={() => ListAll(4)}>
             4. เรื่องค้างเพื่อพิจารณา
           </Button>
+          {data4.map((file) => (
+            <Button sx={{ color: '#2C3333' }} onClick={() => downloadURL(4, file)}>{file}</Button>
+          ))}
           <Typography></Typography>
-          <Button  onClick={agen5}>
+          <Button onClick={() => ListAll(5)}>
             5. เรื่องเสนอเพื่อพิจารณาใหม่
           </Button>
+          {data5.map((file) => (
+            <Button sx={{ color: '#2C3333' }}  onClick={() => downloadURL(5, file)}>{file}</Button>
+          ))}
           <Typography></Typography>
-          <Button  onClick={agen6}>
+          <Button  onClick={() => ListAll(6)}>
             6. เรื่องอื่น
           </Button>
+          {data6.map((file) => (
+            <Button sx={{ color: '#2C3333' }} onClick={() => downloadURL(6, file)}>{file}</Button>
+          ))}
           <Typography></Typography>
-          <Button  onClick={agen7}>
+          <Button  onClick={() => ListAll(7)}>
             7. การเชิญประชุม
           </Button>
+          {data7.map((file) => (
+            <Button sx={{ color: '#2C3333' }} onClick={() => downloadURL(7, file)}>{file}</Button>
+          ))}
         </DialogContent>
       </Dialog>
     </Box>
