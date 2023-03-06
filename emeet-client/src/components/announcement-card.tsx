@@ -22,6 +22,7 @@ function AnnouncementCard(props: Prop) {
   const [isImporting, setIsImporting] = useState(false);
   const [fileSelected, setFile] = useState<File>();
   const [agendaSelected, setAgenda] = useState<number>();
+  const disable = announcement.isMeetingEnd;
   //const [downloadURL, setDownloadURL] = useState('');
 
   const onUpdate = async (ann: Partial<Announcement>) => {
@@ -142,7 +143,9 @@ function AnnouncementCard(props: Prop) {
 
   return (
     <Box>
-      <Card sx={{ maxWidth: 500, height: 240 }}>
+      {!disable
+      ?
+      <Card sx={{ maxWidth: 500, height: 240}}>
         <CardHeader
           sx={{ height: '30%' }}
           title={announcement?.topic}
@@ -166,22 +169,42 @@ function AnnouncementCard(props: Prop) {
           </CardActions>
         </CardActionArea>
       </Card>
+      :
+      <Card sx={{ maxWidth: 500, height: 240, backgroundColor: '#EEEEEE'}}>
+      <CardHeader
+        sx={{ height: '30%' }}
+        title={announcement?.topic}
+        subheader={announcement?.meetDate}
+        header={announcement?.detail}
+      />
+      <CardActionArea sx={{ height: '56%' }} onClick={() => setPopup(true)}>
+        <CardContent sx={{ height: '40%' }}>
+          <Grid container spacing={2} columns={5}>
+            <Grid item xs={3}>
+            </Grid>
+          </Grid>
+        </CardContent>
+        <CardActions sx={{ justifyContent: 'flex-end' }}>
+        </CardActions>
+      </CardActionArea>
+    </Card>
+    }
 
       <Dialog PaperProps={{ sx: { minWidth: "50%", height: "55%" } }} open={popup} onClose={() => setPopup(false)}>
         <DialogTitle sx={{ display: 'flex', justifyContent: 'space-between' }}>
           <Tabs value={tabIndex} onChange={(event: React.SyntheticEvent, newValue: number) => setTabIndex(newValue)} aria-label="basic tabs example">
-            <Tab label="แก้ไขชื่อและวันที่" />
-            <Tab label="อัปโหลดไฟล์เอกสาร" />
+            <Tab disabled={disable} label="แก้ไขชื่อและวันที่" />
+            <Tab disabled={disable} label="อัปโหลดไฟล์เอกสาร" />
             <Tab label="สิ้นสุดการประชุม" />
           </Tabs>
           <IconButton onClick={() => setPopup(false)}>
             <Close />
           </IconButton>
         </DialogTitle>
-        <Box hidden={tabIndex !== 0}>
+        <Box hidden={tabIndex !== 0 || disable }>
           <AnnouncementForm announcement={announcement} callbackFn={onUpdate}></AnnouncementForm>
         </Box>
-        <Box hidden={tabIndex !== 1}>
+        <Box hidden={tabIndex !== 1 || disable}>
           <Box sx={{ margin: 2 }}>
             <Typography variant="h6" sx={{ mt: 0.5 }}>
               วาระที่ 1.เรื่องแจ้งเพื่อทราบ
@@ -252,11 +275,10 @@ function AnnouncementCard(props: Prop) {
           <Button disabled={announcement.isMeetingEnd} variant="contained" sx={{ mx: 4, my: 1, verticalAlign: 'bottom', width: 200, height: 50}} onClick={handleMeeting}>
             สิ้นสุดการประชุม
           </Button>
-          
         </div>
         {announcement.recognizeTime &&
         <Typography variant="h6" sx={{ display: 'flex', justifyContent: 'center', alignItems: 'flex-end' }}>
-              {new Date(announcement?.recognizeTime!.toString()).toLocaleString()}
+              {new Date(announcement?.recognizeTime!.toString()).toLocaleString("en-GB")}
           </Typography>}
         </Box>
       </Dialog>

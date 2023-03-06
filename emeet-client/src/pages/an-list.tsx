@@ -43,6 +43,7 @@ function AnnouncementList() {
 
   useEffect(() => {
     fetchAnnouncementList()
+    
   }, [searchFilter])
 
   return (
@@ -59,20 +60,37 @@ function AnnouncementList() {
       <Button sx={{ m: 2, float: 'right',borderRadius:5,fontFamily:'Kanit',fontWeight:400 }} variant="contained" onClick={() => setCreateFormPopup(true)}>
         <Add /> ประกาศการประชุม
       </Button>
-      {announcementList.length
-        ?
+      <h4>การประชุมที่ยังไม่ถึง</h4>
+      <hr></hr>
+      {announcementList.filter((ann) => !ann.isMeetingEnd).length > 0 ?
         <Grid container sx={{ p: 2 }} spacing={{ xs: 2, md: 3 }} columns={{ xs: 2, sm: 8, md: 12, lg: 12, xl: 10 }}>
-          {announcementList.map((ann, index) =>
+          {announcementList.filter((ann) => !ann.isMeetingEnd).map((ann, index) => (
             <Grid item xs={2} sm={4} md={4} lg={3} xl={2} key={index}>
               <AnnouncementCard announcement={ann} callbackFetchFn={fetchAnnouncementList} onUpdateAnnouncement={onUpdateAnnouncement}></AnnouncementCard>
             </Grid>
-          )}
+        ))}
         </Grid>
         :
-        <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: 400 }}>
+        <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: 150 }} marginRight={20}>
           <Typography variant="body2" color="text.secondary">ไม่พบรายการการประชุม</Typography>
         </Box>
-      }
+        }
+
+      <h4>การประชุมที่จบไปเเล้ว</h4>
+      <hr></hr>
+      {announcementList.filter((ann) => ann.isMeetingEnd).length > 0 ?
+        <Grid container sx={{ p: 2 }} spacing={{ xs: 2, md: 3 }} columns={{ xs: 2, sm: 8, md: 12, lg: 12, xl: 10 }}>
+          {announcementList.filter((ann) => ann.isMeetingEnd).map((ann, index) => (
+            <Grid item xs={2} sm={4} md={4} lg={3} xl={2} key={index}>
+              <AnnouncementCard announcement={ann} callbackFetchFn={fetchAnnouncementList} onUpdateAnnouncement={onUpdateAnnouncement}></AnnouncementCard>
+            </Grid>
+        ))}
+        </Grid>
+        :
+        <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: 150 }} marginRight={20}>
+          <Typography variant="body2" color="text.secondary">ไม่พบรายการการประชุม</Typography>
+        </Box>
+        }
       </div>
 
       <Dialog PaperProps={{ sx: { minWidth: "50%" } }} open={createFormPopup} onClose={() => setCreateFormPopup(false)}>

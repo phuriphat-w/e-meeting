@@ -48,23 +48,39 @@ function MeetInfoList() {
            </div>
            <div className="card-layout">
             <TextField sx={{ m: 2, minWidth: 120 }} label="Search" placeholder="Topic" variant="outlined" value={searchFilter} onChange={handleChangeSearchFilter} />
-            {annList.length
-              ?
-              <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 2, sm: 8, md: 12, lg: 12, xl: 10}}>
-                {annList.map((announcement, index) => 
-                    <Grid item xs={2} sm={4} md={4} lg={3} xl={2} key={index}>
-                        <MeetInfoCard announcement={announcement} onUpdateAnnouncement={onUpdateAnn}></MeetInfoCard>
-                    </Grid>
-                )}
+            <h4>การประชุมที่ยังไม่ถึง</h4>
+            <hr></hr>
+            {annList.filter((announcement) => !announcement.isMeetingEnd).length > 0 ?
+              <Grid container sx={{ p: 2 }} spacing={{ xs: 2, md: 3 }} columns={{ xs: 2, sm: 8, md: 12, lg: 12, xl: 10 }}>
+                {annList.filter((announcement) => !announcement.isMeetingEnd).map((announcement, index) => (
+                  <Grid item xs={2} sm={4} md={4} lg={3} xl={2} key={index}>
+                    <MeetInfoCard announcement={announcement} onUpdateAnnouncement={onUpdateAnn}></MeetInfoCard>
+                  </Grid>
+              ))}
               </Grid>
               :
-              <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: 400}}>
-                <Typography variant='body2' color='text.secondary'>ไม่พบรายการการประชุม</Typography>
+              <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: 150 }} marginRight={20}>
+                <Typography variant="body2" color="text.secondary">ไม่พบรายการการประชุม</Typography>
               </Box>
-            }
-            </div>
+              }
+              <h4>การประชุมที่จบไปเเล้ว</h4>
+              <hr></hr>
+              {annList.filter((announcement) => announcement.isMeetingEnd).length > 0 ?
+                <Grid container sx={{ p: 2 }} spacing={{ xs: 2, md: 3 }} columns={{ xs: 2, sm: 8, md: 12, lg: 12, xl: 10 }}>
+                  {annList.filter((announcement) => announcement.isMeetingEnd).map((announcement, index) => (
+                <Grid item xs={2} sm={4} md={4} lg={3} xl={2} key={index}>
+                  <MeetInfoCard announcement={announcement} onUpdateAnnouncement={onUpdateAnn}></MeetInfoCard>
+                </Grid>
+              ))}
+              </Grid>
+              :
+              <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: 150 }} marginRight={20}>
+                <Typography variant="body2" color="text.secondary">ไม่พบรายการการประชุม</Typography>
+              </Box>
+              }
           </div>
         </div>
+      </div>
     )
 }
 

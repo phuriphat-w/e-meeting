@@ -15,6 +15,7 @@ interface Prop {
 function MeetInfoCard(props: Prop) {
   const announcement = props.announcement;
   const [popup, setPopup] = useState(false);
+  const disable = announcement.isMeetingEnd;
 
   const downloadURL = (n : number) => {
     // Create a reference under which you want to list
@@ -90,6 +91,8 @@ function MeetInfoCard(props: Prop) {
   
   return (
     <Box>
+      {!disable
+      ?
       <Card sx={{ maxWidth: 500, height: 250 }}>
         <CardHeader
           sx={{ height: '30%' }}
@@ -114,6 +117,31 @@ function MeetInfoCard(props: Prop) {
           </CardActions>
         </CardActionArea>
       </Card>
+      :
+      <Card sx={{ maxWidth: 500, height: 250, backgroundColor: '#EEEEEE'}}>
+        <CardHeader
+          sx={{ height: '30%' }}
+          title={announcement.topic}
+          subheader={announcement.meetDate}
+        />
+        <CardActionArea sx={{ height: '56%' }} onClick={() => setPopup(true)}>
+          <CardContent sx={{ height: '40%' }}>
+            <Grid container spacing={2} columns={5}>
+              <Grid item xs={3}>
+                <Typography variant="h5" component="div">
+                  {announcement.place}
+                </Typography>
+                <Typography variant="caption" color="text.secondary">
+                  {announcement.agendaRule}
+                </Typography>
+              </Grid>
+            </Grid>
+          </CardContent>
+          <CardActions sx={{ justifyContent: 'flex-end' }}>
+            <Typography variant="button" color="primary">รายละเอียด</Typography>
+          </CardActions>
+        </CardActionArea>
+      </Card>}
 
       <Dialog PaperProps={{ sx: { minWidth: "50%", maxHeight: "100%" } }} open={popup} onClose={() => setPopup(false)}>
         <DialogTitle sx={{ display: 'flex', justifyContent: 'space-between' }}>
