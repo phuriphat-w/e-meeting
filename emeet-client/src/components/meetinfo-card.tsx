@@ -14,61 +14,27 @@ interface Prop {
 function MeetInfoCard(props: Prop) {
   const announcement = props.announcement;
   const [popup, setPopup] = useState(false);
+  const [popup2, setPopup2] = useState(false);
   const disable = announcement.isMeetingEnd;
   const storage = getStorage();
-  const [data1, setData1] = useState<string[]>([]);
-  const [data2, setData2] = useState<string[]>([]);
-  const [data3, setData3] = useState<string[]>([]);
-  const [data4, setData4] = useState<string[]>([]);
-  const [data5, setData5] = useState<string[]>([]);
-  const [data6, setData6] = useState<string[]>([]);
-  const [data7, setData7] = useState<string[]>([]);
-  const [fileSelected, setFileSelected] = useState(false);
+  const [data, setData] = useState<string[]>([]);
+  const [number, setNumber] = useState(0);
 
   const ListAll = (n : number) => {
-    if(fileSelected == true){
-      setData1([]);
-      setData2([]);
-      setData3([]);
-      setData4([]);
-      setData5([]);
-      setData6([]);
-      setData7([]);
-      setFileSelected(false)
-    }
+    setData([]);
+    setNumber(0);
 
-    if(fileSelected == false){
-      const fileRef = ref(storage, 'meetDoc/annId_'+ announcement.id + '/agenId_' + n);
+    const fileRef = ref(storage, 'meetDoc/annId_'+ announcement.id + '/agenId_' + n);
       listAll(fileRef)
         .then((res) => {
           res.items.forEach((itemRef) => {
-            if(n === 1){
-              setData1((arr: string[]) => [...arr, itemRef.name]);
-            }
-            if(n === 2){
-              setData2((arr: string[]) => [...arr, itemRef.name]);
-            }
-            if(n === 3){
-              setData3((arr: string[]) => [...arr, itemRef.name]);
-            }
-            if(n === 4){
-              setData4((arr: string[]) => [...arr, itemRef.name]);
-            }
-            if(n === 5){
-              setData5((arr: string[]) => [...arr, itemRef.name]);
-            }
-            if(n === 6){
-              setData6((arr: string[]) => [...arr, itemRef.name]);
-            }
-            if(n === 7){
-              setData7((arr: string[]) => [...arr, itemRef.name]);
-            }
-            setFileSelected(true);
+            setData((arr: string[]) => [...arr, itemRef.name]);
+            setNumber(n);
           })
         }).catch((error) => {
           // Uh-oh, an error occurred!
         });
-      }
+      setPopup2(true);
   }
 
   const downloadURL = (n : number, name : string) => {
@@ -168,51 +134,50 @@ function MeetInfoCard(props: Prop) {
           <Button onClick={() => ListAll(1)}>
             1. เรื่องแจ้งเพื่อทราบ
           </Button>
-          {data1.map((file) => (
-            <Button sx={{ color: '#2C3333' }} onClick={() => downloadURL(1, file)}>{file}</Button>
-          ))}
           <Typography></Typography>
           <Button  onClick={() => ListAll(2)}>
             2. รับรองรายงานการประชุม
           </Button>
-          {data2.map((file) => (
-            <Button sx={{ color: '#2C3333' }} onClick={() => downloadURL(2, file)}>{file}</Button>
-          ))}
           <Typography></Typography>
           <Button  onClick={() => ListAll(3)}>
             3. เรื่องสืบเนื่องจากการประชุมครั้งที่แล้ว
           </Button>
-          {data3.map((file) => (
-            <Button sx={{ color: '#2C3333' }} onClick={() => downloadURL(3, file)}>{file}</Button>
-          ))}
           <Typography></Typography>
           <Button  onClick={() => ListAll(4)}>
             4. เรื่องค้างเพื่อพิจารณา
           </Button>
-          {data4.map((file) => (
-            <Button sx={{ color: '#2C3333' }} onClick={() => downloadURL(4, file)}>{file}</Button>
-          ))}
           <Typography></Typography>
           <Button onClick={() => ListAll(5)}>
             5. เรื่องเสนอเพื่อพิจารณาใหม่
           </Button>
-          {data5.map((file) => (
-            <Button sx={{ color: '#2C3333' }}  onClick={() => downloadURL(5, file)}>{file}</Button>
-          ))}
+
           <Typography></Typography>
           <Button  onClick={() => ListAll(6)}>
             6. เรื่องอื่น
           </Button>
-          {data6.map((file) => (
-            <Button sx={{ color: '#2C3333' }} onClick={() => downloadURL(6, file)}>{file}</Button>
-          ))}
           <Typography></Typography>
           <Button  onClick={() => ListAll(7)}>
             7. การเชิญประชุม
           </Button>
-          {data7.map((file) => (
-            <Button sx={{ color: '#2C3333' }} onClick={() => downloadURL(7, file)}>{file}</Button>
-          ))}
+        </DialogContent>
+      </Dialog>
+
+      <Dialog PaperProps={{ sx: { minWidth: "20%", height: 280 , marginLeft:40 ,marginTop: 30 }} } open={popup2} onClose={() => setPopup2(false)}>
+        <DialogContent dividers>
+        {data.length > 0
+          ?
+          <Grid>
+            {data.map((file) => (
+              <Grid item mx={3} sx={{ display: 'flex', alignItems: 'left', justifyContent: 'left', width: 'auto'}}>
+                <Button sx={{ color: '#2C3333' }} onClick={() => downloadURL(number, file)}>{file}</Button>
+              </Grid>
+            ))}
+          </Grid>
+          :
+          <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'right', minHeight: 60, width: 60, marginTop: 10, marginLeft: 10}}>
+            <Typography variant='body2' color='text.secondary'>ไม่มีไฟล์</Typography>
+          </Box>
+        }
         </DialogContent>
       </Dialog>
     </Box>
