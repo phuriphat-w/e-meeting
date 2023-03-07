@@ -63,13 +63,16 @@ function AnnouncementList() {
       <h4 style={{fontFamily:'Kanit',fontWeight:600,marginBottom:10}}>การประชุมที่ยังไม่ถึง</h4>
       <hr></hr>
       {announcementList.filter((ann) => !ann.isMeetingEnd).length > 0 ?
-        <div className="ann-con">
+      <div className="ann-con">
+        <Grid container sx={{ p: 2 }} spacing={{ xs: 2, md: 3 }} columns={{ xs: 2, sm: 8, md: 12, lg: 12, xl: 10 }}>
         {announcementList.filter((ann) => !ann.isMeetingEnd).map((ann, index) => (
-          <div className="ann" key={index}>
+          <Grid item xs={2} sm={4} md={4} lg={3} xl={2} key={index}>
             <AnnouncementCard announcement={ann} callbackFetchFn={fetchAnnouncementList} onUpdateAnnouncement={onUpdateAnnouncement}></AnnouncementCard>
-          </div>
+          </Grid>
       ))}
+      </Grid>
       </div>
+
         :
         <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: 150 }} marginRight={20}>
           <Typography variant="body2" color="text.secondary">ไม่พบรายการการประชุม</Typography>
@@ -79,13 +82,16 @@ function AnnouncementList() {
       <h4 style={{fontFamily:'Kanit',fontWeight:600,marginBottom:10}}>การประชุมที่จบไปเเล้ว</h4>
       <hr></hr>
       {announcementList.filter((ann) => ann.isMeetingEnd).length > 0 ?
-        <div className="ann-con">
-          {announcementList.filter((ann) => ann.isMeetingEnd).map((ann, index) => (
-            <div className="ann" key={index}>
-              <AnnouncementCard announcement={ann} callbackFetchFn={fetchAnnouncementList} onUpdateAnnouncement={onUpdateAnnouncement}></AnnouncementCard>
-              </div>
-        ))}
-        </div>
+      <div className="ann-con">
+        <Grid container sx={{ p: 2 }} spacing={{ xs: 2, md: 3 }} columns={{ xs: 2, sm: 8, md: 12, lg: 12, xl: 10 }}>
+        {announcementList.filter((ann) => ann.isMeetingEnd).map((ann, index) => (
+          <Grid item xs={2} sm={4} md={4} lg={3} xl={2} key={index}>
+            <AnnouncementCard announcement={ann} callbackFetchFn={fetchAnnouncementList} onUpdateAnnouncement={onUpdateAnnouncement}></AnnouncementCard>
+          </Grid>
+      ))}
+      </Grid>
+      </div>
+
         :
         <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: 150 }} marginRight={20}>
           <Typography variant="body2" color="text.secondary">ไม่พบรายการการประชุม</Typography>
