@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
+import MeetInfoList from '../pages/meet-info';
 
 export interface IAuthRouteProps {
     children: React.ReactNode;
@@ -26,7 +27,12 @@ const AuthRoute: React.FunctionComponent<IAuthRouteProps> = (props) => {
     })
 
     if (loading) return <p>loading ...</p>
-    
+
+    if (auth.currentUser?.email !== '6510110060@psu.ac.th')
+    {
+        return <MeetInfoList/>
+    }
+
     return <>{children}</>;
 };
 
