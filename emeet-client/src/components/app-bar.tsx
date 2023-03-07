@@ -37,16 +37,26 @@ function MeetAppBar() {
         });
       };
 
-      const getLink = () => {
-        return user?.email === "6510110060@psu.ac.th" ? "/announcement" : "/home";
+      const Admin = "6510110060@psu.ac.th";
+
+      const getLinkAdmin = () => {
+        return user?.email === Admin ? "/announcement" : "/home";
       };
       
-      const getMenu = () => {
-        return user?.email === "6510110060@psu.ac.th" ? "นัดหมายการประชุม" : "รายการการประชุม";
+      const getLink = () => {
+        return "/home" ;
       };
 
+      const getMenuAdmin = () => {
+          return "นัดหมายการประชุม"
+
+      };
+
+      const getMenu = () => {
+        return "รายการการประชุม"
+      };
       const role = () => {
-        return user?.email === "6510110060@psu.ac.th" ? "Admin" : "";
+        return user?.email === Admin ? "Admin" : "User";
       }
     
 
@@ -78,6 +88,13 @@ function MeetAppBar() {
             <span className="menu-text">{getMenu()}</span>
           </a>
         </li>
+        {user?.email === Admin &&
+        <li>
+          <a href={getLinkAdmin()}>
+            <GroupsIcon sx={{color:'#707070',ml:1.5}}/>
+            <span className="menu-text">{getMenuAdmin()}</span>
+          </a>
+        </li>}
         <li>
           <a>
             <Notifications/>
