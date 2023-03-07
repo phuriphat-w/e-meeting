@@ -89,6 +89,7 @@ function AnnouncementCard(props: Prop) {
     if(datetime){
       props.onUpdateAnnouncement(datetime)
     }
+    setPopup(false);
   }
 
   const handleSelectedFile = (file : any, n : number) => {
@@ -161,6 +162,9 @@ function AnnouncementCard(props: Prop) {
           <CardContent sx={{ height: '40%' }}>
             <Grid container spacing={2} columns={5}>
               <Grid item xs={3}>
+              <Typography variant="h5" component="div">
+                  {announcement.place}
+                </Typography>
               </Grid>
             </Grid>
           </CardContent>
@@ -177,34 +181,35 @@ function AnnouncementCard(props: Prop) {
         subheader={announcement?.meetDate}
         header={announcement?.detail}
       />
-      <CardActionArea sx={{ height: '56%' }} onClick={() => setPopup(true)}>
         <CardContent sx={{ height: '40%' }}>
           <Grid container spacing={2} columns={5}>
             <Grid item xs={3}>
+              {announcement.recognizeTime &&
+              <Typography variant="h5" component="div">
+                  {new Date(announcement?.recognizeTime!.toString()).toLocaleString("en-GB")}
+                </Typography>
+              }
             </Grid>
           </Grid>
         </CardContent>
-        <CardActions sx={{ justifyContent: 'flex-end' }}>
-        </CardActions>
-      </CardActionArea>
     </Card>
     }
 
       <Dialog PaperProps={{ sx: { minWidth: "50%", height: "55%" } }} open={popup} onClose={() => setPopup(false)}>
         <DialogTitle sx={{ display: 'flex', justifyContent: 'space-between' }}>
           <Tabs value={tabIndex} onChange={(event: React.SyntheticEvent, newValue: number) => setTabIndex(newValue)} aria-label="basic tabs example">
-            <Tab disabled={disable} label="แก้ไขชื่อและวันที่" />
-            <Tab disabled={disable} label="อัปโหลดไฟล์เอกสาร" />
+            <Tab label="แก้ไขชื่อและวันที่" />
+            <Tab label="อัปโหลดไฟล์เอกสาร" />
             <Tab label="สิ้นสุดการประชุม" />
           </Tabs>
           <IconButton onClick={() => setPopup(false)}>
             <Close />
           </IconButton>
         </DialogTitle>
-        <Box hidden={tabIndex !== 0 || disable }>
+        <Box hidden={tabIndex !== 0}>
           <AnnouncementForm announcement={announcement} callbackFn={onUpdate}></AnnouncementForm>
         </Box>
-        <Box hidden={tabIndex !== 1 || disable}>
+        <Box hidden={tabIndex !== 1}>
           <Box sx={{ margin: 2 }}>
             <Typography variant="h6" sx={{ mt: 0.5 }}>
               วาระที่ 1.เรื่องแจ้งเพื่อทราบ
