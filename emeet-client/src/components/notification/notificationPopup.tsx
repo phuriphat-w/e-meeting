@@ -38,11 +38,12 @@ function NotificationPopup(): JSX.Element {
           <Grid
             container spacing={2}
           >
-            {annList.map((announcement, index) => 
-                <Grid item mx={10} key={index} sx={{ display: 'flex', alignItems: 'center', justifyContent: 'right', width: 660}}>
-                    <NotificationCard announcement={announcement} onUpdateAnnouncement={onUpdateAnnouncement}></NotificationCard>
-                </Grid>
+            {annList.filter((announcement) => !announcement.isMeetingEnd).map((announcement, index) => 
+              <Grid item mx={10} key={index} sx={{ display: 'flex', alignItems: 'center', justifyContent: 'right', width: 660}}>
+                  <NotificationCard announcement={announcement} onUpdateAnnouncement={onUpdateAnnouncement}></NotificationCard>
+              </Grid>
             )}
+
           </Grid>
           :
           <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'right', minHeight: 500, width: 450}}>
