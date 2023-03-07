@@ -3,6 +3,7 @@ import { Button, Card, CardActionArea, CardActions, CardContent, CardHeader, Dia
 import { Box } from "@mui/system";
 import { Close } from '@mui/icons-material/';
 import Announcement from "../models/Announcement";
+import './meetinfo-card.css'
 
 import { ref, getDownloadURL, listAll, getStorage } from "firebase/storage";
 
@@ -19,7 +20,6 @@ function MeetInfoCard(props: Prop) {
   const storage = getStorage();
   const [data, setData] = useState<string[]>([]);
   const [number, setNumber] = useState(0);
-
   const ListAll = (n : number) => {
     setData([]);
     setNumber(0);
@@ -105,7 +105,7 @@ function MeetInfoCard(props: Prop) {
 
       <Dialog PaperProps={{ sx: { minWidth: "50%", maxHeight: "100%" } }} open={popup} onClose={() => setPopup(false)}>
         <DialogTitle sx={{ display: 'flex', justifyContent: 'space-between' }}>
-          <Typography variant="h4" sx={{ mt: 1 }}>
+          <Typography variant="h4" sx={{ mt: 1,fontFamily:'Kanit' }}>
             {announcement.topic}
           </Typography>
           
@@ -119,46 +119,25 @@ function MeetInfoCard(props: Prop) {
           </Typography>}
         <DialogContent dividers>
 
-          <Typography variant="h6" sx={{ mt: 1 }}>
+          <Typography variant="h6" sx={{ mt: 1,fontFamily:'Kanit',fontWeight:400 }}>
             ประชุมวันที่: {announcement.meetDate}
           </Typography>
-          <Typography variant="h6" sx={{ mt: 1 }}>
+          <Typography variant="h6" sx={{ mt: 1,fontFamily:'Kanit',fontWeight:400 }}>
             สถานที่: {announcement.place}
           </Typography>
-          <Typography variant="h6" sx={{ mt: 1 }}>
+          <Typography variant="h6" sx={{ mt: 1,fontFamily:'Kanit',fontWeight:400 }}>
             ระเบียบการวาระประชุม: {announcement.agendaRule}
           </Typography>
-          <Typography variant="h4" sx={{ mt: 1 }}>
+          <Typography variant="h4" sx={{ mt: 1,fontFamily:'Kanit',fontWeight:400 }}>
             วาระการประชุม
           </Typography>
-          <Button onClick={() => ListAll(1)}>
-            1. เรื่องแจ้งเพื่อทราบ
-          </Button>
-          <Typography></Typography>
-          <Button  onClick={() => ListAll(2)}>
-            2. รับรองรายงานการประชุม
-          </Button>
-          <Typography></Typography>
-          <Button  onClick={() => ListAll(3)}>
-            3. เรื่องสืบเนื่องจากการประชุมครั้งที่แล้ว
-          </Button>
-          <Typography></Typography>
-          <Button  onClick={() => ListAll(4)}>
-            4. เรื่องค้างเพื่อพิจารณา
-          </Button>
-          <Typography></Typography>
-          <Button onClick={() => ListAll(5)}>
-            5. เรื่องเสนอเพื่อพิจารณาใหม่
-          </Button>
-
-          <Typography></Typography>
-          <Button  onClick={() => ListAll(6)}>
-            6. เรื่องอื่น
-          </Button>
-          <Typography></Typography>
-          <Button  onClick={() => ListAll(7)}>
-            7. การเชิญประชุม
-          </Button>
+          <Button sx={{ fontFamily: "Kanit",fontWeight:400 }} onClick={() => ListAll(1)}>1. เรื่องแจ้งเพื่อทราบ</Button>
+          <p><Button sx={{ fontFamily: "Kanit",fontWeight:400}} onClick={() => ListAll(2)}>2. รับรองรายงานการประชุม</Button></p>
+          <p><Button sx={{ fontFamily: "Kanit",fontWeight:400 }} onClick={() => ListAll(3)}>3. เรื่องสืบเนื่องจากการประชุมครั้งที่แล้ว</Button></p>
+          <p><Button sx={{ fontFamily: "Kanit",fontWeight:400 }} onClick={() => ListAll(4)}>4. เรื่องค้างเพื่อพิจารณา</Button></p>
+          <p><Button sx={{ fontFamily: "Kanit",fontWeight:400 }} onClick={() => ListAll(5)}>5. เรื่องเสนอเพื่อพิจารณาใหม่</Button></p>
+          <p><Button sx={{ fontFamily: "Kanit",fontWeight:400 }} onClick={() => ListAll(6)}>6. เรื่องอื่น</Button></p>
+          <p><Button sx={{ fontFamily: "Kanit",fontWeight:400 }} onClick={() => ListAll(7)}>7. การเชิญประชุม</Button></p>
         </DialogContent>
       </Dialog>
 
@@ -174,14 +153,16 @@ function MeetInfoCard(props: Prop) {
             ))}
           </Grid>
           :
-          <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'right', minHeight: 60, width: 60, marginTop: 10, marginLeft: 10}}>
-            <Typography variant='body2' color='text.secondary'>ไม่มีไฟล์</Typography>
-          </Box>
+          <div className="loader-container">
+            <div className="loader"></div>
+          </div>
         }
         </DialogContent>
       </Dialog>
     </Box>
+    
   )
 }
+
 
 export default MeetInfoCard;
