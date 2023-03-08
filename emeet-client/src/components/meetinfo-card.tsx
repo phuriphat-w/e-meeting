@@ -4,6 +4,8 @@ import { Box } from "@mui/system";
 import { Close } from '@mui/icons-material/';
 import Announcement from "../models/Announcement";
 import './meetinfo-card.css'
+import { VscFilePdf } from 'react-icons/vsc';
+import { RiCloseCircleFill } from 'react-icons/ri'
 
 import { ref, getDownloadURL, listAll, getStorage } from "firebase/storage";
 
@@ -141,14 +143,23 @@ function MeetInfoCard(props: Prop) {
         </DialogContent>
       </Dialog>
 
-      <Dialog PaperProps={{ sx: { minWidth: "20%", height: 280 , marginLeft:40 ,marginTop: 30 }} } open={popup2} onClose={() => setPopup2(false)}>
+      <Dialog PaperProps={{ sx: { minWidth: "20%", height: 350 , marginLeft:40 ,marginTop: 30 }} } open={popup2} onClose={() => setPopup2(false)}>
+        <CardHeader 
+          title={
+          <Typography variant="h6" sx={{color:'white',textAlign:'center',fontFamily:'Kanit',fontWeight:300}}>เอกสารทั้งหมด
+          </Typography>}
+          sx={{height:'20%',maxwidth:'100%',backgroundColor:'#333333'}}>
+        </CardHeader>
+
         <DialogContent dividers>
         {data.length > 0
           ?
           <Grid>
             {data.map((file) => (
-              <Grid item mx={3} sx={{ display: 'flex', alignItems: 'left', justifyContent: 'left', width: 'auto'}}>
-                <Button sx={{ color: '#2C3333' }} onClick={() => downloadURL(number, file)}>{file}</Button>
+              <Grid item mx={3} mb={1} sx={{ display: 'flex', alignItems: 'left', justifyContent: 'left', width: 'auto'}}>
+                <VscFilePdf style={{ fontSize:27,marginRight:4}}/>
+                <Button sx={{ fontFamily:'Kanit',fontWeight:400,color: '#2C3333','&:hover': {
+            color:'white',backgroundColor:'#143B6C'} }} onClick={() => downloadURL(number, file)}>{file}</Button>
               </Grid>
             ))}
           </Grid>
