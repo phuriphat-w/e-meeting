@@ -202,9 +202,9 @@ function AnnouncementCard(props: Prop) {
       <Dialog PaperProps={{ sx: { minWidth: "50%", height: "55%" } }} open={popup} onClose={() => setPopup(false)}>
         <DialogTitle sx={{ display: 'flex', justifyContent: 'space-between' }}>
           <Tabs value={tabIndex} onChange={(event: React.SyntheticEvent, newValue: number) => setTabIndex(newValue)} aria-label="basic tabs example">
-            <Tab label="แก้ไขชื่อและวันที่" />
-            <Tab label="อัปโหลดไฟล์เอกสาร" />
-            <Tab label="สิ้นสุดการประชุม" />
+            <Tab sx={{fontFamily:'Kanit'}} label="แก้ไขชื่อและวันที่" />
+            <Tab sx={{fontFamily:'Kanit'}} label="อัปโหลดไฟล์เอกสาร" />
+            <Tab sx={{fontFamily:'Kanit'}} label="สิ้นสุดการประชุม" />
           </Tabs>
           <IconButton onClick={() => setPopup(false)}>
             <Close />
@@ -215,77 +215,77 @@ function AnnouncementCard(props: Prop) {
         </Box>
         <Box hidden={tabIndex !== 1}>
           <Box sx={{ margin: 2 }}>
-            <Typography variant="h6" sx={{ mt: 0.5 }}>
+            <Typography variant="h6" sx={{ mt: 0.5,fontFamily:'Kanit',fontWeight:400 }}>
               วาระที่ 1.เรื่องแจ้งเพื่อทราบ
             </Typography>
             <Grid container sx={{ p:1 }}>
-            <Button disabled={isImporting} variant="contained" component="label" sx={{ mx: 1 }}>
+            <Button disabled={isImporting} variant="contained" component="label" sx={{ mx: 1,fontFamily:'Kanit',fontWeight:400,borderRadius:8 }}>
               <Upload />
               เลือกไฟล์
               <input hidden type="file" accept=".pdf" onChange={(file) => handleSelectedFile(file.target.files, 1)} />
             </Button>
             {agendaSelected === 1 && fileSelected &&<p>{fileSelected.name}</p>}
             </Grid>
-            <Typography variant="h6" sx={{ mt: 0.5 }}>
+            <Typography variant="h6" sx={{ mt: 0.5,fontFamily:'Kanit',fontWeight:400 }}>
               วาระที่ 2.รับรองรายงานการประชุม
             </Typography>
             <Grid container sx={{ p:1 }}>
-            <Button disabled={isImporting} variant="contained" component="label" sx={{ mx: 1 }}>
+            <Button disabled={isImporting} variant="contained" component="label" sx={{ mx: 1,fontFamily:'Kanit',fontWeight:400,borderRadius:8 }}>
               <Upload />
               เลือกไฟล์
               <input hidden type="file" accept=".pdf" onChange={(file) => handleSelectedFile(file.target.files, 2)} />
             </Button>
             {agendaSelected === 2 && fileSelected &&<p>{fileSelected.name}</p>}
             </Grid>
-            <Typography variant="h6" sx={{ mt: 0.5 }}>
+            <Typography variant="h6" sx={{ mt: 0.5,fontFamily:'Kanit',fontWeight:400 }}>
               วาระที่ 3.เรื่องสืบเนื่องจากการประชุมครั้งที่แล้ว
             </Typography>
             <Grid container sx={{ p:1 }}>
-            <Button disabled={isImporting} variant="contained" component="label" sx={{ mx: 1 }}>
+            <Button disabled={isImporting} variant="contained" component="label" sx={{ mx: 1,fontFamily:'Kanit',fontWeight:400,borderRadius:8 }}>
               <Upload />
               เลือกไฟล์
               <input hidden type="file" accept=".pdf" onChange={(file) => handleSelectedFile(file.target.files, 3)} />
             </Button>
             {agendaSelected === 3 && fileSelected &&<p>{fileSelected.name}</p>}
             </Grid>
-            <Typography variant="h6" sx={{ mt: 0.5 }}>
+            <Typography variant="h6" sx={{ mt: 0.5,fontFamily:'Kanit',fontWeight:400 }}>
               วาระที่ 4.เรื่องค้างเพื่อพิจารณา
             </Typography>
             <Grid container sx={{ p:1 }}>
-            <Button disabled={isImporting} variant="contained" component="label" sx={{ mx: 1 }}>
+            <Button disabled={isImporting} variant="contained" component="label" sx={{ mx: 1,fontFamily:'Kanit',fontWeight:400,borderRadius:8 }}>
               <Upload />
               เลือกไฟล์
               <input hidden type="file" accept=".pdf" onChange={(file) => handleSelectedFile(file.target.files, 4)} />
             </Button>
             {agendaSelected === 4 && fileSelected &&<p>{fileSelected.name}</p>}
             </Grid>
-            <Typography variant="h6" sx={{ mt: 0.5 }}>
+            <Typography variant="h6" sx={{ mt: 0.5,fontFamily:'Kanit',fontWeight:400 }}>
               วาระที่ 5.เรื่องเสนอเพื่อพิจารณาใหม่
             </Typography>
             <Grid container sx={{ p:1 }}>
-            <Button disabled={isImporting} variant="contained" component="label" sx={{ mx: 1 }}>
+            <Button disabled={isImporting} variant="contained" component="label" sx={{ mx: 1,fontFamily:'Kanit',fontWeight:400,borderRadius:8 }}>
               <Upload />
               เลือกไฟล์
               <input hidden type="file" accept=".pdf" onChange={(file) => handleSelectedFile(file.target.files, 5)} />
             </Button>
             {agendaSelected === 5 && fileSelected &&<p>{fileSelected.name}</p>}
             </Grid>
-            <Typography variant="h6" sx={{ mt: 0.5 }}>
+            <Typography variant="h6" sx={{ mt: 0.5,fontFamily:'Kanit',fontWeight:400 }}>
               วาระที่ 6.เรื่องอื่นๆ
             </Typography>
             <Grid container sx={{ p:1 }}>
-            <Button disabled={isImporting} variant="contained" component="label" sx={{ mx: 1 }}>
-              <Upload />
-              เลือกไฟล์
+            <Button disabled={isImporting} variant="contained" component="label" sx={{ mx: 1,fontFamily:'Kanit',fontWeight:400,borderRadius:8 }}>
+              <Upload/>
+                เลือกไฟล์
               <input hidden type="file" accept=".pdf" onChange={(file) => handleSelectedFile(file.target.files, 6)} />
             </Button>
             {agendaSelected === 6 && fileSelected &&<p>{fileSelected.name}</p>}
             </Grid>
-            <Typography variant="h6" sx={{ mt: 0.5 }}>
+            <Typography variant="h6" sx={{ mt: 0.5,fontFamily:'Kanit',fontWeight:400 }}>
               วาระที่ 7.การเชิญประชุม
             </Typography>
             <Grid container sx={{ p:1 }}>
-            <Button disabled={isImporting} variant="contained" component="label" sx={{ mx: 1 }}>
+            <Button disabled={isImporting} variant="contained" component="label" sx={{ mx: 1,fontFamily:'Kanit',fontWeight:400,borderRadius:8 }}>
               <Upload />
               เลือกไฟล์
               <input hidden type="file" accept=".pdf" onChange={(file) => handleSelectedFile(file.target.files, 7)} />
@@ -293,16 +293,16 @@ function AnnouncementCard(props: Prop) {
             {agendaSelected === 7 && fileSelected &&<p>{fileSelected.name}</p>}
             </Grid>
           </Box>
-          <Button disabled={!isImporting} variant="contained" component="label" sx={{ mx: 4, my: 1 }} onClick={handleImport}>
+          <Button disabled={!isImporting} variant="contained" component="label" sx={{ fontSize:18,ml:4,mt:5,mb:3 ,fontFamily:'Kanit',fontWeight:400,borderRadius:8,backgroundColor:'#5CB85C','&:hover':{backgroundColor:'#5CB85C'} }} onClick={handleImport}>
             อัปโหลด
           </Button>
-          <Button disabled={!isImporting} variant="contained" component="label" sx={{ mx: 4, my: 1 }} onClick={handleCancelFile}>
+          <Button disabled={!isImporting} variant="contained" component="label" sx={{ fontSize:18,float: 'right',mt:5,mb:3,mr:4, fontFamily:'Kanit',fontWeight:400,borderRadius:8,backgroundColor:'#ED5E68','&:hover':{backgroundColor:'#ED5E68'} }} onClick={handleCancelFile}>
             ยกเลิก
           </Button>
         </Box>
         <Box hidden={tabIndex !== 2}>
         <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'flex-end' }}>
-          <Button disabled={announcement.isMeetingEnd} variant="contained" sx={{ mx: 4, my: 1, verticalAlign: 'bottom', width: 200, height: 50}} onClick={handleMeeting}>
+          <Button disabled={announcement.isMeetingEnd} variant="contained" sx={{ mx: 4, my: 1, verticalAlign: 'bottom', width: 200, height: 50,fontFamily:'Kanit',fontWeight:500,borderRadius:8,backgroundColor:'#ED5E68',fontSize:17,'&:hover':{backgroundColor:'#ED5E68'}}} onClick={handleMeeting}>
             สิ้นสุดการประชุม
           </Button>
         </div>

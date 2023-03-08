@@ -63,7 +63,7 @@ function AnnouncementForm(props: Prop) {
         <TextField fullWidth sx={{ minWidth: 300 }} label="กฏวาระ" placeholder="1/2566" variant="outlined" defaultValue={props.announcement.agendaRule} inputRef={agenRuleRef} />
       </div>
       <div style={{ margin: 20 }}>
-        <Button variant="contained" sx={{ mb: 1, float: 'right', verticalAlign: 'bottom' }} onClick={onSubmit}>{props.announcement.id ? 'แก้ไข' : 'ยืนยัน'}</Button>
+        <Button variant="contained" sx={{ mb: 1, float: 'right', verticalAlign: 'bottom',fontFamily:'Kanit',fontSize:18,borderRadius:8 }} onClick={onSubmit}>{props.announcement.id ? 'แก้ไข' : 'ยืนยัน'}</Button>
       </div>
     </Box>
   )
