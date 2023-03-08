@@ -146,11 +146,11 @@ function AnnouncementCard(props: Prop) {
     <Box>
       {!disable
       ?
-      <Card sx={{ maxWidth: 500, height: 240}}>
+      <Card sx={{ maxWidth: 500, height: 240, borderRadius:7}}>
         <CardHeader
           sx={{ height: '30%' }}
-          title={announcement?.topic}
-          subheader={announcement?.meetDate}
+          title={<Typography variant="h6" sx={{fontFamily:'Kanit',fontWeight:500}}>{announcement?.topic}</Typography>}
+          subheader={<Typography sx={{fontFamily:'Kanit',fontWeight:300,fontSize:17}}>{announcement?.meetDate}</Typography>}
           header={announcement?.detail}
           action={
             <IconButton sx={{ '&:hover': { color: 'red' } }} onClick={onDelete}>
@@ -174,19 +174,20 @@ function AnnouncementCard(props: Prop) {
         </CardActionArea>
       </Card>
       :
-      <Card sx={{ maxWidth: 500, height: 240, backgroundColor: '#EEEEEE'}}>
+      <Card sx={{ maxWidth: 500, height: 240, backgroundColor: '#EEEEEE', borderRadius:7}}>
       <CardHeader
         sx={{ height: '30%' }}
-        title={announcement?.topic}
-        subheader={announcement?.meetDate}
+        title={<Typography variant="h6" sx={{fontFamily:'Kanit',fontWeight:500}}>{announcement?.topic}</Typography>}
+        subheader={<Typography sx={{fontFamily:'Kanit',fontWeight:300,fontSize:17}}>{announcement?.meetDate}</Typography>}
         header={announcement?.detail}
       />
         <CardContent sx={{ height: '40%' }}>
           <Grid container spacing={2} columns={5}>
-            <Grid item xs={3}>
+            <Grid item>
               {announcement.recognizeTime &&
-              <Typography variant="h5" component="div">
-                  {new Date(announcement?.recognizeTime!.toString()).toLocaleString("en-GB")}
+              <Typography component="div">
+                  <p style={{fontFamily:'Kanit',fontWeight:400,fontSize:22}}>สิ้นสุดการประชุมเมื่อ</p>
+                  <p>{new Date(announcement?.recognizeTime!.toString()).toLocaleString("en-GB")}</p>
                 </Typography>
               }
             </Grid>

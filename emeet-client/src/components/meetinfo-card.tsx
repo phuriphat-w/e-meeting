@@ -53,52 +53,52 @@ function MeetInfoCard(props: Prop) {
     <Box>
       {!disable
       ?
-      <Card sx={{ maxWidth: 500, height: 250 }}>
+      <Card sx={{ maxWidth: 500, height: 250, borderRadius:7 }}>
         <CardHeader
           sx={{ height: '30%' }}
-          title={announcement.topic}
-          subheader={announcement.meetDate}
+          title={<Typography variant="h6" sx={{fontFamily:'Kanit',fontWeight:500}}>{announcement?.topic}</Typography>}
+          subheader={<Typography sx={{fontFamily:'Kanit',fontWeight:300,fontSize:17}}>{announcement?.meetDate}</Typography>}
         />
         <CardActionArea sx={{ height: '56%' }} onClick={() => setPopup(true)}>
           <CardContent sx={{ height: '40%' }}>
             <Grid container spacing={2} columns={5}>
               <Grid item xs={3}>
-                <Typography variant="h5" component="div">
+                <Typography variant="h5" component="div" sx={{fontFamily:'Kanit',fontSize:22}}>
                   {announcement.place}
                 </Typography>
-                <Typography variant="caption" color="text.secondary">
+                <Typography variant="caption" color="text.secondary" sx={{fontFamily:'Kanit',fontSize:17}}>
                   {announcement.agendaRule}
                 </Typography>
               </Grid>
             </Grid>
           </CardContent>
           <CardActions sx={{ justifyContent: 'flex-end' }}>
-            <Typography variant="button" color="primary">รายละเอียด</Typography>
+            <Typography variant="button" color="primary" sx={{fontFamily:'Kanit'}}>รายละเอียด</Typography>
           </CardActions>
         </CardActionArea>
       </Card>
       :
-      <Card sx={{ maxWidth: 500, height: 250, backgroundColor: '#EEEEEE'}}>
+      <Card sx={{ maxWidth: 500, height: 250, backgroundColor: '#EEEEEE', borderRadius:7}}>
         <CardHeader
           sx={{ height: '30%' }}
-          title={announcement.topic}
-          subheader={announcement.meetDate}
+          title={<Typography variant="h6" sx={{fontFamily:'Kanit',fontWeight:500}}>{announcement?.topic}</Typography>}
+          subheader={<Typography sx={{fontFamily:'Kanit',fontWeight:300,fontSize:17}}>{announcement?.meetDate}</Typography>}
         />
         <CardActionArea sx={{ height: '56%' }} onClick={() => setPopup(true)}>
           <CardContent sx={{ height: '40%' }}>
             <Grid container spacing={2} columns={5}>
               <Grid item xs={3}>
-                <Typography variant="h5" component="div">
+                <Typography variant="h5" component="div" sx={{fontFamily:'Kanit',fontSize:22}}>
                   {announcement.place}
                 </Typography>
-                <Typography variant="caption" color="text.secondary">
+                <Typography variant="caption" color="text.secondary" sx={{fontFamily:'Kanit',fontSize:17}}>
                   {announcement.agendaRule}
                 </Typography>
               </Grid>
             </Grid>
           </CardContent>
           <CardActions sx={{ justifyContent: 'flex-end' }}>
-            <Typography variant="button" color="primary">รายละเอียด</Typography>
+            <Typography variant="button" color="primary" sx={{fontFamily:'Kanit'}}>รายละเอียด</Typography>
           </CardActions>
         </CardActionArea>
       </Card>}

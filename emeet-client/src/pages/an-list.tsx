@@ -75,7 +75,7 @@ function AnnouncementList() {
 
         :
         <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: 150 }} marginRight={20}>
-          <Typography variant="body2" color="text.secondary">ไม่พบรายการการประชุม</Typography>
+          <Typography variant="body2" color="text.secondary" sx={{fontFamily:'Kanit'}}>ไม่พบรายการการประชุม</Typography>
         </Box>
         }
 
@@ -94,7 +94,7 @@ function AnnouncementList() {
 
         :
         <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: 150 }} marginRight={20}>
-          <Typography variant="body2" color="text.secondary">ไม่พบรายการการประชุม</Typography>
+          <Typography variant="body2" color="text.secondary" sx={{fontFamily:'Kanit'}}>ไม่พบรายการการประชุม</Typography>
         </Box>
         }
       </div>
