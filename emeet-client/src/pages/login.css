@@ -226,3 +226,7 @@
     margin-bottom: 0.5rem;
     font-family: Kanit;
   }
+
+.swal2-title {
+  font-family: Kanit;
+}

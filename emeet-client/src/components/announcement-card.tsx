@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Button, Card, CardActionArea, CardActions, CardContent, CardHeader, Dialog, DialogTitle, Grid, IconButton, Tab, Tabs, Typography } from "@mui/material";
-import { Box } from "@mui/system";
+import { Box, fontFamily } from "@mui/system";
 import { Close, Delete, Edit, Upload } from "@mui/icons-material";
 import Announcement from "../models/Announcement";
 import AnnouncementForm from "./announcement-form";
@@ -8,6 +8,7 @@ import Repo from '../repositories'
 import { storage } from "../fireBaseConfig";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import Swal from 'sweetalert2'
+
 
 interface Prop {
   announcement: Announcement
@@ -47,6 +48,8 @@ function AnnouncementCard(props: Prop) {
         })
     }
   }
+
+  
 
   const onDelete = async () => {
     await Swal.fire({
@@ -162,7 +165,7 @@ function AnnouncementCard(props: Prop) {
           <CardContent sx={{ height: '40%' }}>
             <Grid container spacing={2} columns={5}>
               <Grid item xs={3}>
-              <Typography variant="h5" component="div">
+              <Typography variant="h5" component="div" sx={{fontFamily:'Kanit',fontSize:22}}>
                   {announcement.place}
                 </Typography>
               </Grid>
