@@ -35,15 +35,15 @@ function Notifications(): JSX.Element {
         <div>
             <div onClick={() => setPopup(true)}>
                 <Badge badgeContent={count} color="error">
-                    <NotificationsIcon sx={{color:'#707070',ml:1.5,cursor:'pointer'}}/> 
+                    <NotificationsIcon sx={{color:'#ECF9FF',ml:1.5,cursor:'pointer'}}/> 
                 </Badge>
                 <span style={{cursor:'pointer'}} className="menu-text">แจ้งเตือนการประชุม</span>
             </div>
 
-            <Dialog PaperProps={{ sx: { minWidth: "50%" } }} open={popup} onClose={() => setPopup(false)}>
-                <DialogTitle sx={{ display: 'flex', justifyContent: 'space-between' }}>
+            <Dialog PaperProps={{ sx: { minWidth: "740px" } }} open={popup} onClose={() => setPopup(false)}>
+                <DialogTitle sx={{ display: 'flex', justifyContent: 'space-between',backgroundColor: '#002E74', color: '#ECF9FF', fontFamily: 'Kanit'}}>
                     แจ้งเตือนการประชุม
-                    <IconButton onClick={() => setPopup(false)}>
+                    <IconButton sx={{ color: '#ECF9FF' }}onClick={() => setPopup(false)}>
                         <Close />
                     </IconButton>
                 </DialogTitle>

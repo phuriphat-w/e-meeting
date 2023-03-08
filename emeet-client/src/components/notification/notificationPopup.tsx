@@ -31,7 +31,13 @@ function NotificationPopup(): JSX.Element {
   });
 
   return (
-    <Box sx={{ width: 400, height: 1000}}>
+    <Box sx={{ 
+      width: '100%', 
+      height: 1000, 
+      backgroundImage: `url('/image2.jpg')`, 
+      backgroundSize: '100% 100%',    
+      backgroundRepeat: 'no-repeat' 
+    }}>
       <div>
         {unReadCount
           ?
