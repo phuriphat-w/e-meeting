@@ -35,9 +35,9 @@ function Notifications(): JSX.Element {
         <div>
             <div onClick={() => setPopup(true)}>
                 <Badge badgeContent={count} color="error">
-                    <NotificationsIcon sx={{color:'#707070',ml:1.5}}/> 
+                    <NotificationsIcon sx={{color:'#707070',ml:1.5,cursor:'pointer'}}/> 
                 </Badge>
-                <span className="menu-text">แจ้งเตือนการประชุม</span>
+                <span style={{cursor:'pointer'}} className="menu-text">แจ้งเตือนการประชุม</span>
             </div>
 
             <Dialog PaperProps={{ sx: { minWidth: "50%" } }} open={popup} onClose={() => setPopup(false)}>

@@ -82,7 +82,7 @@ body {
     text-decoration: none;
     display: flex;
     border-radius: 10px;
-    transition: all 0.3s ease;
+    transition: all 0.1s ease;
     align-items: center;
 }
 
@@ -92,7 +92,7 @@ body {
 }
 
 .contents a:hover {
-    background-color: #695cfe;
+    background-color: #143B6C;
 }
 
 .user-info-container{
@@ -173,7 +173,7 @@ body {
     text-decoration: none;
     display: flex;
     border-radius: 10px;
-    transition: all 0.3s ease;
+    transition: all 0.1s ease;
     align-items: center;
 }
 
