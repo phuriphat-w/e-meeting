@@ -84,14 +84,14 @@ function MeetAppBar() {
       <ul className="contents">
         <li>
           <a href={getLink()}>
-            <GroupsIcon sx={{color:'#707070',ml:1.5}}/>
+            <GroupsIcon sx={{color:'#ECF9FF',ml:1.5}}/>
             <span className="menu-text">{getMenu()}</span>
           </a>
         </li>
         {user?.email === Admin &&
         <li>
           <a href={getLinkAdmin()}>
-            <GroupsIcon sx={{color:'#707070',ml:1.5}}/>
+            <GroupsIcon sx={{color:'#ECF9FF',ml:1.5}}/>
             <span className="menu-text">{getMenuAdmin()}</span>
           </a>
         </li>}
@@ -104,7 +104,7 @@ function MeetAppBar() {
       <ul className="logout-btn">
         <li onClick={handleSignOut}>
           <a>
-            <LogoutIcon sx={{color:'#707070',ml:1.5}}/>
+            <LogoutIcon sx={{color:'#ECF9FF',ml:1.5}}/>
             <span className="menu-text">Logout</span>
           </a>
         </li>

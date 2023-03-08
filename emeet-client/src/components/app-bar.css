@@ -48,7 +48,7 @@ body {
     text-decoration: none;
     font-family: Kanit;
     font-size: 20px;
-    color: #707070;
+    color: #ECF9FF;
     font-weight: 400;
     /* border: 1px solid red; */
     padding-left: 9px;
@@ -194,6 +194,9 @@ body {
         top: 0;
         left: 0;
         background-color: #fff;
+        background: url('../../public/image4.png');
+        background-position: center;
+        background-size: cover;
     }
 
     .psu-icon {
@@ -213,7 +216,7 @@ body {
         text-decoration: none;
         font-family: Kanit;
         font-size: 16px;
-        color: #707070;
+        color: #ECF9FF;
         font-weight: 400;
         /* border: 1px solid red; */
         padding-left: 9px;
