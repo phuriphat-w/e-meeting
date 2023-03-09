@@ -33,10 +33,9 @@ function AnnouncementCard(props: Prop) {
         Swal.fire({
           title: 'ต้องการแก้ไขหรือไม่?',
           showDenyButton: true,
-          showCancelButton: true,
           confirmButtonText: 'บันทึก',
-          cancelButtonText: 'ยกเลิก',
           denyButtonText: `ละทิ้ง`,
+          confirmButtonColor: '#3085d6',
         }).then((results) => {
           /* Read more about isConfirmed, isDenied below */
           if (results.isConfirmed) {

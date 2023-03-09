@@ -116,7 +116,7 @@ function MeetInfoCard(props: Prop) {
           </IconButton>
         </DialogTitle>
         {announcement.recognizeTime &&
-          <Typography  variant="h6" sx={{ mt: 1}}  marginLeft={3}>
+          <Typography  variant="h6" sx={{ mt: 1,fontFamily: "Kanit",fontWeight:400}}  marginLeft={3}>
             สิ้นสุดการประชุมเวลา: {new Date(announcement?.recognizeTime!.toString()).toLocaleString("en-GB")}
           </Typography>}
         <DialogContent dividers>
@@ -148,7 +148,8 @@ function MeetInfoCard(props: Prop) {
           title={
           <Typography variant="h6" sx={{color:'white',textAlign:'center',fontFamily:'Kanit',fontWeight:300}}>เอกสารทั้งหมด
           </Typography>}
-          sx={{height:'20%',maxwidth:'100%',backgroundColor:'#333333'}}>
+          action={<IconButton sx={{color:'white'}} onClick={() => setPopup2(false)}><Close /></IconButton>}
+          sx={{height:'20%',maxwidth:'100%',backgroundColor:'#143B6C'}}>
         </CardHeader>
 
         <DialogContent dividers>
@@ -159,7 +160,7 @@ function MeetInfoCard(props: Prop) {
               <Grid item mx={3} mb={1} sx={{ display: 'flex', alignItems: 'left', justifyContent: 'left', width: 'auto'}}>
                 <VscFilePdf style={{ fontSize:27,marginRight:4}}/>
                 <Button sx={{ fontFamily:'Kanit',fontWeight:400,color: '#2C3333','&:hover': {
-            color:'white',backgroundColor:'#143B6C'} }} onClick={() => downloadURL(number, file)}>{file}</Button>
+            color:'white',backgroundColor:'#0C528E'} }} onClick={() => downloadURL(number, file)}>{file}</Button>
               </Grid>
             ))}
           </Grid>
