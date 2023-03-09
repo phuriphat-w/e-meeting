@@ -10,10 +10,15 @@ import Repo from '../repositories'
 import './bg.css';
 import './an-list.css'
 
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
+import { useNavigate } from 'react-router-dom';
+
 function AnnouncementList() {
   const [announcementList, setAnnouncementList] = useState<Announcement[]>([])
   const [searchFilter, setSearchFilter] = useState('');
   const [createFormPopup, setCreateFormPopup] = useState(false);
+  const auth = getAuth();
+  const navigate = useNavigate();
 
   const onUpdateAnnouncement = (announcement: Announcement) => {
     setAnnouncementList(prevAnnouncementList => prevAnnouncementList.map(item => item.id === announcement.id ? announcement : item))}
@@ -43,7 +48,18 @@ function AnnouncementList() {
 
   useEffect(() => {
     fetchAnnouncementList()
-    
+
+    const listen = onAuthStateChanged(auth, (user) =>  {
+      if (user?.email !== "6510110060@psu.ac.th")
+      {
+        navigate('/home');
+        window.location.reload();
+      }
+    });
+
+      return () => {
+        listen();
+      }
   }, [searchFilter])
 
   return (
