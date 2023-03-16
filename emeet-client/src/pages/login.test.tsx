@@ -33,7 +33,7 @@ describe('', () => {
         <Login />
       </MemoryRouter>
     );
-    expect(screen.getByText('รหัสผ่าน!')).toBeInTheDocument();
+    expect(screen.getByText('รหัสผ่าน')).toBeInTheDocument();
   });
   it('test button text', () => {
     render(
