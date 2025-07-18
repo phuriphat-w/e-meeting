@@ -5,9 +5,7 @@ import { Close } from '@mui/icons-material/';
 import Announcement from "../models/Announcement";
 import './meetinfo-card.css'
 import { VscFilePdf } from 'react-icons/vsc';
-import { RiCloseCircleFill } from 'react-icons/ri'
 
-import { ref, getDownloadURL, listAll, getStorage } from "firebase/storage";
 
 interface Prop {
   announcement: Announcement
@@ -19,36 +17,38 @@ function MeetInfoCard(props: Prop) {
   const [popup, setPopup] = useState(false);
   const [popup2, setPopup2] = useState(false);
   const disable = announcement.isMeetingEnd;
-  const storage = getStorage();
   const [data, setData] = useState<string[]>([]);
   const [number, setNumber] = useState(0);
+  
+  // Mock file data
+  const mockFiles: { [key: number]: string[] } = {
+    1: ['agenda1_document.pdf', 'meeting_notes.pdf'],
+    2: ['previous_meeting_minutes.pdf'],
+    3: ['follow_up_items.pdf', 'action_items.pdf'],
+    4: ['pending_issues.pdf'],
+    5: ['new_proposals.pdf', 'budget_review.pdf'],
+    6: ['miscellaneous.pdf'],
+    7: ['next_meeting_invitation.pdf']
+  };
+  
   const ListAll = (n : number) => {
     setData([]);
     setNumber(0);
 
-    const fileRef = ref(storage, 'meetDoc/annId_'+ announcement.id + '/agenId_' + n);
-      listAll(fileRef)
-        .then((res) => {
-          res.items.forEach((itemRef) => {
-            setData((arr: string[]) => [...arr, itemRef.name]);
-            setNumber(n);
-          })
-        }).catch((error) => {
-          // Uh-oh, an error occurred!
-        });
-      setPopup2(true);
+    // Mock file listing
+    setTimeout(() => {
+      const files = mockFiles[n] || [];
+      setData(files);
+      setNumber(n);
+    }, 500);
+    
+    setPopup2(true);
   }
 
   const downloadURL = (n : number, name : string) => {
-    // Create a reference under which you want to list
-    const listRef = ref(storage, 'meetDoc/annId_'+ announcement.id + '/agenId_' + n + '/' + name);
-
-    getDownloadURL(listRef)
-      .then((url) => {
-              //console.log(url);
-        window.open(url, "_blank");
-      })
-        
+    // Mock file download
+    console.log(`Mock download: ${name} from agenda ${n}`);
+    alert(`Mock download: ${name}\n(In real app, this would download the file)`);
   }
 
   return (

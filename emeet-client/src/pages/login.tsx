@@ -5,11 +5,11 @@ import './bg.css';
 import logo from '../images/psu-logo.png'
 import Swal from 'sweetalert2'
 
-import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
+import { useMockAuth } from '../components/MockAuth';
 
 function Login() {
   
-  const auth = getAuth();
+  const { signInWithEmailAndPassword } = useMockAuth();
   const navigate = useNavigate();
   const [authing, setAuthing] = useState(false);
 
@@ -19,24 +19,23 @@ function Login() {
   const signInByEMailPass = async () => {
     setAuthing(true);
 
-    signInWithEmailAndPassword(auth, emailRef.current!.value, passwordRef.current!.value)
-    .then(response => {
-      console.log(response.user.uid);
-    
-      if (response.user.email === '6510110060@psu.ac.th'){
+    try {
+      await signInWithEmailAndPassword(emailRef.current!.value, passwordRef.current!.value);
+      
+      if (emailRef.current!.value === '6510110060@psu.ac.th'){
         navigate('/announcement');
-      }
-      else {
+      } else {
         navigate('/home');
       }
+      
       Swal.fire({
         position: 'center',
         icon: 'success',
         title: 'ล็อกอินสำเร็จ',
         showConfirmButton: false,
-      })
-    })
-    .catch(error => {
+        timer: 1500
+      });
+    } catch (error) {
       console.log(error);
       setAuthing(false);
       Swal.fire({
@@ -44,13 +43,12 @@ function Login() {
         icon: 'error',
         title: 'ล็อกอินไม่สำเร็จ',
         showConfirmButton: false,
-      })
-    })
+        timer: 1500
+      });
+    }
   }
 
   
-
-  console.log('rendering..... login', auth.name)
 
   return (
     <div className="main-login">

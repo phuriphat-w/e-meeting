@@ -1,16 +1,12 @@
 import './App.css';
 import AppRoutes from './config/routes';
-import { AuthProvider } from "react-oidc-context";
-import { oidcConfig } from './config';
-import AppProvider from './AppProvider';
+import { MockAuthProvider } from './components/MockAuth';
 
 function App() {
   return (
-    <AuthProvider {...oidcConfig}>
-      <AppProvider>
-        <AppRoutes />
-      </AppProvider>      
-    </AuthProvider>
+    <MockAuthProvider>
+      <AppRoutes />
+    </MockAuthProvider>
   )
 }
 

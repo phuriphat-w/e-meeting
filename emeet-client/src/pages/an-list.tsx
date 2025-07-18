@@ -10,14 +10,14 @@ import Repo from '../repositories'
 import './bg.css';
 import './an-list.css'
 
-import { getAuth, onAuthStateChanged } from 'firebase/auth';
+import { useMockAuth } from '../components/MockAuth';
 import { useNavigate } from 'react-router-dom';
 
 function AnnouncementList() {
   const [announcementList, setAnnouncementList] = useState<Announcement[]>([])
   const [searchFilter, setSearchFilter] = useState('');
   const [createFormPopup, setCreateFormPopup] = useState(false);
-  const auth = getAuth();
+  const { currentUser } = useMockAuth();
   const navigate = useNavigate();
 
   const onUpdateAnnouncement = (announcement: Announcement) => {
@@ -49,17 +49,9 @@ function AnnouncementList() {
   useEffect(() => {
     fetchAnnouncementList()
 
-    const listen = onAuthStateChanged(auth, (user) =>  {
-      if (user?.email !== "6510110060@psu.ac.th")
-      {
-        navigate('/home');
-        window.location.reload();
-      }
-    });
-
-      return () => {
-        listen();
-      }
+    if (currentUser?.email !== "6510110060@psu.ac.th") {
+      navigate('/home');
+    }
   }, [searchFilter])
 
   return (

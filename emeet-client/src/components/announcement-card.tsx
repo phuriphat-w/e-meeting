@@ -5,8 +5,6 @@ import { Close, Delete, Edit, Upload } from "@mui/icons-material";
 import Announcement from "../models/Announcement";
 import AnnouncementForm from "./announcement-form";
 import Repo from '../repositories'
-import { storage } from "../fireBaseConfig";
-import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import Swal from 'sweetalert2'
 
 
@@ -24,7 +22,6 @@ function AnnouncementCard(props: Prop) {
   const [fileSelected, setFile] = useState<File>();
   const [agendaSelected, setAgenda] = useState<number>();
   const disable = announcement.isMeetingEnd;
-  //const [downloadURL, setDownloadURL] = useState('');
 
   const onUpdate = async (ann: Partial<Announcement>) => {
     const result = await Repo.announcements.update(ann)
@@ -109,36 +106,17 @@ function AnnouncementCard(props: Prop) {
   const handleImport = async (event: any) => {
     if (fileSelected && isImporting === true){
       setIsImporting(false)
-      const name = fileSelected.name
-      const storageRef = ref(storage, 'meetDoc/annId_'+ announcement.id + '/agenId_' + agendaSelected + '/' + name)
-      const uploadTask = uploadBytesResumable(storageRef, fileSelected)
-
-      uploadTask.on('state_changed', 
-        (snapshot) => {
-          // Observe state change events such as progress, pause, and resume
-          // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
-          const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-          console.log('Upload is ' + progress + '% done');
-          switch (snapshot.state) {
-            case 'paused':
-              console.log('Upload is paused');
-              break;
-            case 'running':
-              console.log('Upload is running');
-              break;
-          }
-        }, 
-        (error) => {
-          // Handle unsuccessful uploads
-        }, 
-        () => {
-          // Handle successful uploads on complete
-          // For instance, get the download URL: https://firebasestorage.googleapis.com/...
-          getDownloadURL(uploadTask.snapshot.ref).then((url) => {
-            //setDownloadURL(url)
-          });
-        }
-      );
+      
+      // Mock file upload
+      console.log(`Mock upload: ${fileSelected.name} for agenda ${agendaSelected}`);
+      
+      Swal.fire({
+        position: 'center',
+        icon: 'success',
+        title: 'อัปโหลดไฟล์สำเร็จ (Mock)',
+        showConfirmButton: false,
+        timer: 1500
+      });
     }
 
     event.target.value = null

@@ -5,31 +5,23 @@ import Icon from '../images/psu-icon.png';
 import GroupsIcon from '@mui/icons-material/Groups';
 import LogoutIcon from '@mui/icons-material/Logout';
 import AccountBoxIcon from '@mui/icons-material/AccountBox';
-import { getAuth, signOut, onAuthStateChanged  } from 'firebase/auth';
+import { useMockAuth } from './MockAuth';
 import Notifications from "./notification/notification";
 
 function MeetAppBar() {
   const navigate = useNavigate();
-  const auth = getAuth();
-  const user = auth.currentUser;
+  const { currentUser: user, signOut } = useMockAuth();
   const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-      const listen = onAuthStateChanged(auth, (user) =>  {
-        if (user) {
-          setLoading(false);
-          //const email = user.email;
-        }else{
-        }
-      });
-
-        return () => {
-          listen();
-        }
+      // Simulate loading
+      setTimeout(() => {
+        setLoading(false);
+      }, 500);
     });
 
       const handleSignOut = () => {
-        signOut(auth).then(() => {
+        signOut().then(() => {
           navigate("/");
           console.log("Signed out successfully")
         }).catch((error) => {

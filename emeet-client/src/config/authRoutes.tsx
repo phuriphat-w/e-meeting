@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { getAuth, onAuthStateChanged } from 'firebase/auth';
+import { useMockAuth } from '../components/MockAuth';
 import { useNavigate } from 'react-router-dom';
 
 export interface IAuthRouteProps {
@@ -8,22 +8,18 @@ export interface IAuthRouteProps {
 
 const AuthRoute: React.FunctionComponent<IAuthRouteProps> = (props) => {
     const { children } = props;
-    const auth = getAuth();
+    const { currentUser } = useMockAuth();
     const navigate = useNavigate();
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
-        AuthCheck();
-    });
-
-    const AuthCheck = onAuthStateChanged(auth, (user) => {
-        if (user){
-            setLoading(false);
-        } else {
-            console.log('unautherized')
+        if (!currentUser) {
+            console.log('unauthorized')
             navigate('/login');
+        } else {
+            setLoading(false);
         }
-    })
+    });
 
     if (loading) return <p>loading ...</p>
 

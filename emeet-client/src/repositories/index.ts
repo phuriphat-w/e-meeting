@@ -1,7 +1,7 @@
-import { AnnouncementRepository } from "./AnnouncementRepo"
+import { MockAnnouncementRepository } from "./MockAnnouncementRepo"
 
 const repositories = {
-  announcements: new AnnouncementRepository(),
+  announcements: new MockAnnouncementRepository(),
 }
 
 export default repositories
